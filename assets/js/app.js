@@ -5,7 +5,7 @@ let bricks, badBricks;
 
 function preload() {
   sprite1 = new Sprite();
-  sprite1.spriteSheet = 'spritesheet/spritesheet_boy.png';
+  sprite1.spriteSheet = '/assets/images/sprites/spritesheet_boy.png';
   sprite1.anis.offset.x = 2;
   sprite1.anis.frameDelay = 8;
   sprite1.addAnis({
@@ -13,7 +13,7 @@ function preload() {
   });
   
   sprite2 = new Sprite();
-  sprite2.spriteSheet = 'spritesheet/spritesheet_girl.png';
+  sprite2.spriteSheet = '/assets/images/sprites/spritesheet_girl.png';
   sprite2.anis.offset.x = 2;
   sprite2.anis.frameDelay = 8;
   sprite2.addAnis({
@@ -47,7 +47,7 @@ function setup() {
   bricks.tile = '=';
   bricks.fill="rgb(120,52,52)";
   bricks.stroke="black";
-  bricks.img = "media/sprites/brick.png";
+  bricks.img = "/assets/images/sprites/brick.png";
   
   bricks.physics = KINEMATIC;
   
