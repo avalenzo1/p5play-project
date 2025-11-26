@@ -1,4 +1,4 @@
-let platform, pad1, pad2, rudolph;
+let platform, pad1, pad2, rudolph, elf;
 
 function preload() {
     createCanvas(800, 600);
@@ -6,23 +6,29 @@ function preload() {
     // Loading 
     rudolph = new Sprite();
     rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
-    rudolph.anis.offset.x = 2;
     rudolph.anis.frameDelay = 8;
     rudolph.addAnis({
         idle: { row: 0, frames: 1 },
-        jump: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
         run: { row: 0, frames: 4 },
     });
-    rudolph.scale.x = 2;
-    rudolph.scale.y = 2;
+    
     rudolph.width = 32;
     rudolph.height = 32;
-    rudolph.changeAni('idle');
     rudolph.rotationLock = true;
     rudolph.bounciness = 0;
     rudolph.friction = 0.99;
     rudolph.x = 100;
     rudolph.y = height - 20;
+    rudolph.changeAni('idle');
+
+    elf = new Sprite();
+    elf.width = 32;
+    elf.height = 32;
+    elf.scale.x = 2;
+    elf.scale.y = 2;
+
+
 }
 
 function setup() {
@@ -49,6 +55,10 @@ function setup() {
 
     pad2 = addFloor(200, height-20, 50, 5);
     pad2.fill="blue";
+
+    rudolph.scale.x = 2;
+    rudolph.scale.y = 2;
+
 }
 
 function draw() {
@@ -67,6 +77,19 @@ function draw() {
         rudolph.vel.y = -4;
     }
 
+    if (kb.pressing('ArrowLeft')) {
+        elf.vel.x = -3;
+        elf.scale.x = -2;
+    }
+    if (kb.pressing('ArrowRight')) {
+        elf.vel.x = 3;
+        elf.scale.x = 2;
+    }
+    
+    if (kb.pressing('ArrowUp') && touchingFloor(elf) && !touchingWall(elf)) {
+        rudolph.vel.y = -4;
+    }
+
     if (kb.pressing('w')) {
         rudolph.changeAni('jump');
     } else if (kb.pressing('a') || kb.pressing('d')) {
@@ -75,6 +98,7 @@ function draw() {
         rudolph.changeAni('idle');
     }
 
-    camera.x = rudolph.x;
-    camera.y = rudolph.y;
+    // camera.x = rudolph.x;
+    // camera.y = rudolph.y;
+    camera.zoom = 1;
 }
