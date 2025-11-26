@@ -5,11 +5,12 @@ function preload() {
 
     // Loading 
     rudolph = new Sprite();
-    rudolph.spriteSheet = '/assets/images/sprites/reindeerSpriteSheet.png';
+    rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
     rudolph.anis.offset.x = 2;
     rudolph.anis.frameDelay = 8;
     rudolph.addAnis({
         idle: { row: 0, frames: 1 },
+        jump: { row: 0, frames: 1 },
         run: { row: 0, frames: 4 },
     });
     rudolph.scale.x = 2;
@@ -54,11 +55,11 @@ function draw() {
     background(200);
 
     if (kb.pressing('a')) {
-        rudolph.vel.x = -2;
+        rudolph.vel.x = -3;
         rudolph.scale.x = -2;
     }
     if (kb.pressing('d')) {
-        rudolph.vel.x = 2;
+        rudolph.vel.x = 3;
         rudolph.scale.x = 2;
     }
     
@@ -66,7 +67,9 @@ function draw() {
         rudolph.vel.y = -4;
     }
 
-    if (kb.pressing('a') || kb.pressing('d')) {
+    if (kb.pressing('w')) {
+        rudolph.changeAni('jump');
+    } else if (kb.pressing('a') || kb.pressing('d')) {
         rudolph.changeAni('run');
     } else {
         rudolph.changeAni('idle');
