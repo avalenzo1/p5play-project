@@ -15,12 +15,21 @@ function addWall(x, y, w, h) {
 
     newWall.fill="grey";
     newWall.stroke="grey";
+    newWall.friction = 0;
 
     return addWall;
 }
 
-function playerTouchFloor(sprite) {
-    
+function touchingWall(sprite) {
+    for (let i = 0; i < walls.length; ++i) {
+        if (sprite.colliding(walls[i])) return true;
+    }
+}
+
+function touchingFloor(sprite) {
+    for (let i = 0; i < floors.length; ++i) {
+        if (sprite.colliding(floors[i])) return true;
+    }
 }
 
 function addBorders() {
