@@ -1,11 +1,15 @@
 let floors;
 let walls;
+let gifts;
+let score = 0;
+let kaFont;
 
 function addFloor(x, y, w, h) {
-    let newFloor = new floors.Sprite(x, y, w, h, STATIC);
+    let newFloor = new floors.Sprite(x, y, w, h,STATIC);
 
     newFloor.fill="grey";
     newFloor.stroke="grey";
+    newFloor.friction = 4;
 
     return newFloor;
 }
@@ -18,6 +22,23 @@ function addWall(x, y, w, h) {
     newWall.friction = 0;
 
     return addWall;
+}
+
+function addGift(x, y) {
+    let gift = new gifts.Sprite(x, y, 32, 32, STATIC);
+    gift.image = "/assets/images/sprites/gift.png";
+
+    return gift;
+}
+
+function checkForGift() {
+    for (let i = 0; i < gifts.length; ++i) {
+        if (elf.colliding(gifts[i]) || rudolph.colliding(gifts[i])) {
+            gifts[i].remove();
+            giftSnd.play();
+            score++;
+        }
+    }
 }
 
 function touchingWall(sprite) {
@@ -43,6 +64,10 @@ function addBorders() {
 function initializeSprites() {
     floors = new Group();
     walls = new Group();
+    gifts = new Group();
 
     addBorders();
+
+    kaFont = loadFont('/assets/fonts/ka1.ttf');
+    textFont(kaFont);
 }
