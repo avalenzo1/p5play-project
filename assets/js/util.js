@@ -25,7 +25,7 @@ function addWall(x, y, w, h) {
 }
 
 function addGift(x, y) {
-    let gift = new gifts.Sprite(x, y, 32, 32, STATIC);
+    let gift = new gifts.Sprite(x, y, 32, 32, KIN);
     gift.image = "/assets/images/sprites/gift.png";
 
     return gift;

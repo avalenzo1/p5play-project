@@ -1,4 +1,4 @@
-let levelPassed = false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
+let levelPassed = false, platform1Return = false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
 let jumpSnd, snowSnd, giftSnd, levelPassSnd;
 
 function preload() {
@@ -57,7 +57,6 @@ function setup() {
     latch.stroke = "gold"
 
     gift = addGift(400, 120);
-    gift.scale = 2;
     gift.physics = DYNAMIC;
 
     addFloor(700, 150, 200, 5);
@@ -98,11 +97,13 @@ function draw() {
     background(200);
 
     if (rudolph.colliding(pad1)) {
-        if (platform1.y > 350) {
+        if (platform1.y > 350 && !platform1Return) {
             platform1.vel.y = -2;
-        } else {
-            platform1.vel.y = 0;
+        } else if (platform1.y < 350) {
+            platform1.vel.y = 2;
         }
+    } else {
+        platform1.vel.y = 0;
     }
 
     if (elf.colliding(pad2)) {
@@ -110,9 +111,12 @@ function draw() {
 
         if (platform2.y > 200) {
             platform2.vel.y = -2;
+            platform2Return = true;
         } else {
-            platform2.vel.y = 0;
+            platform2.vel.y = 2;
         }
+    } else {
+        platform2.vel.y = 0;
     }
 
     if (rudolph.colliding(pad3)) {
@@ -174,8 +178,10 @@ function draw() {
     checkForGift();
 }
 
+
 function drawFrame() {
     allSprites.draw();
+        
     drawUI();
 
 }
