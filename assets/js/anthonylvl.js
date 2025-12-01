@@ -32,6 +32,13 @@ function preload() {
     rudolph.changeAni('idle');
 
     elf = new Sprite();
+    elf.spriteSheet = '/assets/images/sprites/elf.png';
+    elf.addAnis({
+        idle: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
+        run: { row: 0, frames: 4 },
+    });
+    rudolph.changeAni('idle');
     elf.width = 32;
     elf.height = 32;
     elf.scale.x = 1;
@@ -196,6 +203,21 @@ function draw() {
     } else {
         rudolph.changeAni('idle');
     }
+
+    if (kb.pressing('ArrowUp')) {
+        elf.changeAni('jump');
+    } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
+        elf.changeAni('run');
+
+        if (!snowSnd.isPlaying()) {
+            snowSnd.jump(0.1);
+
+            snowSnd.play();
+        }
+    } else {
+        elf.changeAni('idle');
+    }
+
 
     if (score >= 500) {
         levelPassed = true;
