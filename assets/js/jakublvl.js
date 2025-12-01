@@ -205,25 +205,19 @@ function draw() {
 
   if (kb.pressing('arrow_left')) {
   elf.vel.x = -5;
-  elf.changeAni('run');
+  elf.scale.x = -1.3;
   }
   else if (kb.pressing('arrow_right')) {
   elf.vel.x = 5;
-  elf.changeAni('run');
+  elf.scale.x = 1.3;
   }
   else { 
     elf.vel.x = 0;
-    elf.changeAni('idle');
   }
 
   if(blueJumps > 0 && kb.presses('arrow_up')){
       elf.vel.y = -5;
-      elf.changeAni('jump');
       blueJumps--;
-  }
-  else
-  {
-    elf.changeAni('idle');
   }
 
   if(elf.vel.y >= 0 && (elf.colliding(platform1) || elf.colliding(floor) || elf.colliding(platform6) || elf.colliding(platform7)
@@ -235,25 +229,19 @@ function draw() {
 
   if (kb.pressing('a')) {
   rudolph.vel.x = -5;
-  rudolph.changeAni('run');
+  rudolph.scale.x = -1.3;
   }
   else if (kb.pressing('d')) {
   rudolph.vel.x = 5;
-  rudolph.changeAni('run');
+  rudolph.scale.x = 1.3;
   }
   else {
   rudolph.vel.x = 0;
-  rudolph.changeAni('idle');
   }
 
   if(redJumps > 0 && kb.presses('w')){
       rudolph.vel.y = -5;
-      rudolph.changeAni('jump');
       redJumps--;
-  }
-  else
-  {
-    rudolph.changeAni('idle');
   }
 
   if(rudolph.vel.y >= 0 && (rudolph.colliding(platform1) || rudolph.colliding(floor) || rudolph.colliding(platform6) || rudolph.colliding(platform7)
@@ -302,6 +290,36 @@ function draw() {
   {
     levelPassed = true;
   }
+
+      if (kb.pressing('w')) {
+        rudolph.changeAni('jump');
+    } else if (kb.pressing('a') || kb.pressing('d')) {
+        rudolph.changeAni('run');
+
+        if (!snowSnd.isPlaying()) {
+            snowSnd.jump(0.1);
+
+            snowSnd.play();
+        }
+    } else {
+        rudolph.changeAni('idle');
+    }
+
+    //elf jump
+
+    if (kb.pressing('ArrowUp')) {
+        elf.changeAni('jump');
+    } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
+        elf.changeAni('run');
+
+        if (!snowSnd.isPlaying()) {
+            snowSnd.jump(0.1);
+
+            snowSnd.play();
+        }
+    } else {
+        elf.changeAni('idle');
+    }
 
   if (kb.presses('w') || kb.presses('ArrowUp')) {
       jumpSnd.play();
