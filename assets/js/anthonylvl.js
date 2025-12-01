@@ -240,11 +240,11 @@ function drawFrame() {
 }
 
 function mouseClicked() {
-    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && !levelPassed) {
         window.location.href="/jakublvl.html";
     }
 
-    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && !levelPassed) {
         window.location.reload();
     }
 }
