@@ -19,7 +19,7 @@ let playExplosion = false, playedExplosion = false; // present and future tense
 const dialogue = [
     "Press the [Enter] key to continue.",
     "Santa was slaying the day before Christmas",
-    "but Santa is dumb -- he forgot to put gasoline on the reindeers]",
+    "but Santa is dumb -- he forgot to put gasoline on the reindeers]...",
     "idk",
     "Santa's elf and and Rudolph must now save Christmas!"
 ];
@@ -50,6 +50,11 @@ function draw() {
 
     if (currentLine < 3)
     santaSleigh.vel.y = cos(frameCount * 2.2) * 2;
+
+    if (currentLine == 2) {
+        santaSleigh.x += random(-2, 2);
+        santaSleigh.y += random(-2, 2);
+    }
 
     cloudX -= 2;
 
