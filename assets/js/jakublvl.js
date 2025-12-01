@@ -3,11 +3,11 @@ let platform1, platform2movable, platform3Left, platform4Right, platform5Inner;
 let platform6, platform7, platform7movable;
 let platform8, platform9, movePlatform, floorLava;
 let wallJump1, wallJump2;
-let movePlatform2, sadRed, sadBlue, redJumps, blueJumps;
+let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 60;
+let timeLimit = 120;
 let timeLeft = timeLimit;
-let time = 60;
+let time = 120;
 let gameActive = true;
 
 let levelPassed = false;
@@ -19,11 +19,45 @@ function preload() {
 
     loadSounds();
     loadIcons();
+
+  rudolph = new Sprite();
+  rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
+  rudolph.anis.frameDelay = 16;
+  rudolph.addAnis({
+      idle: { row: 0, frames: 1 },
+      jump: { row: 1, frames: 1 },
+      run: { row: 0, frames: 4 },
+  });
+  rudolph.x = 50;
+  rudolph.y = 560;
+  rudolph.rotationLock = true;
+  rudolph.width = 32;
+  rudolph.height = 32;
+  rudolph.changeAni('idle');
+
+  elf = new Sprite(100, 560, 40, DYNAMIC);
+  elf.x = 100;
+  elf.y = 560;
+  elf.spriteSheet = '/assets/images/sprites/elf.png';
+  elf.addAnis({
+      idle: { row: 0, frames: 1 },
+      jump: { row: 1, frames: 1 },
+      run: { row: 0, frames: 4 },
+  });
+  elf.changeAni('idle');
+  elf.anis.frameDelay = 16;
+  elf.width = 32;
+  elf.height = 32;
+  elf.rotationLock = true;
 }
 
 function setup() {
   createCanvas(800, 600);
 
+  initializeSprites();
+
+  addGift(width/2 + 180, height/2 - 20);
+  addGift(100, 80);
   
   world.gravity.y = 9.8; 
 
@@ -101,16 +135,12 @@ function setup() {
   movePlatform2.text = "STAND";
   movePlatform2.textSize = 15;
   
-  sadRed = new Sprite(50, 560, 40, DYNAMIC);
-  sadRed.color = 'red';
-  sadRed.stroke = 0;
-  sadRed.text = ":(";
+  rudolph.scale.x = 1.3;
+  rudolph.scale.y = 1.3;
   redJumps = 1;
   
-  sadBlue = new Sprite(100, 560, 40, DYNAMIC);
-  sadBlue.color = 'lightblue';
-  sadBlue.stroke = 0;
-  sadBlue.text = ":(";
+  elf.scale.x = 1.3;
+  elf.scale.y = 1.3;
   blueJumps = 1;
 }
 
@@ -127,8 +157,8 @@ function gameOver() {
 }
 
 function restartGame() {
-  sadRed.pos = { x: 50, y: 560 };
-  sadBlue.pos = { x: 100, y: 560 };
+  rudolph.pos = { x: 50, y: 560 };
+  elf.pos = { x: 100, y: 560 };
   redJumps = 1;
   blueJumps = 1;
 
@@ -161,6 +191,7 @@ function makeGUI(){
 function draw() {
   background(220);
   
+  checkForGift();
   if (timeLeft === 0 || !gameActive) {
     gameOver();
     
@@ -170,39 +201,67 @@ function draw() {
     return;
   }
 
-  if (kb.pressing('arrow_left')) sadBlue.vel.x = -5;
-  else if (kb.pressing('arrow_right')) sadBlue.vel.x = 5;
-  else sadBlue.vel.x = 0;
-
-  if(blueJumps > 0 && kb.presses('arrow_up')){
-       sadBlue.vel.y = -5;
-      blueJumps--;
+  if (kb.pressing('arrow_left')) {
+  elf.vel.x = -5;
+  elf.changeAni('run');
+  }
+  else if (kb.pressing('arrow_right')) {
+  elf.vel.x = 5;
+  elf.changeAni('run');
+  }
+  else { 
+    elf.vel.x = 0;
+    elf.changeAni('idle');
   }
 
-  if(sadBlue.vel.y >= 0 && (sadBlue.colliding(platform1) || sadBlue.colliding(floor) || sadBlue.colliding(platform6) || sadBlue.colliding(platform7)
-  || sadBlue.colliding(platform8) || sadBlue.colliding(platform9) || sadBlue.colliding(movePlatform)
-  || sadBlue.colliding(wallJump1) || sadBlue.colliding(wallJump2) || sadBlue.colliding(movePlatform2)))
+  if(blueJumps > 0 && kb.presses('arrow_up')){
+      elf.vel.y = -5;
+      elf.changeAni('jump');
+      blueJumps--;
+  }
+  else
+  {
+    elf.changeAni('idle');
+  }
+
+  if(elf.vel.y >= 0 && (elf.colliding(platform1) || elf.colliding(floor) || elf.colliding(platform6) || elf.colliding(platform7)
+  || elf.colliding(platform8) || elf.colliding(platform9) || elf.colliding(movePlatform)
+  || elf.colliding(wallJump1) || elf.colliding(wallJump2) || elf.colliding(movePlatform2)))
   {
     blueJumps = 1;
   }
 
-  if (kb.pressing('a')) sadRed.vel.x = -5;
-  else if (kb.pressing('d')) sadRed.vel.x = 5;
-  else sadRed.vel.x = 0;
-
-  if(redJumps > 0 && kb.presses('w')){
-       sadRed.vel.y = -5;
-      redJumps--;
+  if (kb.pressing('a')) {
+  rudolph.vel.x = -5;
+  rudolph.changeAni('run');
+  }
+  else if (kb.pressing('d')) {
+  rudolph.vel.x = 5;
+  rudolph.changeAni('run');
+  }
+  else {
+  rudolph.vel.x = 0;
+  rudolph.changeAni('idle');
   }
 
-  if(sadRed.vel.y >= 0 && (sadRed.colliding(platform1) || sadRed.colliding(floor) || sadRed.colliding(platform6) || sadRed.colliding(platform7)
-  || sadRed.colliding(platform8) || sadRed.colliding(platform9) || sadRed.colliding(movePlatform)
-  || sadRed.colliding(wallJump1) || sadRed.colliding(wallJump2) || sadRed.colliding(movePlatform2)))
+  if(redJumps > 0 && kb.presses('w')){
+      rudolph.vel.y = -5;
+      rudolph.changeAni('jump');
+      redJumps--;
+  }
+  else
+  {
+    rudolph.changeAni('idle');
+  }
+
+  if(rudolph.vel.y >= 0 && (rudolph.colliding(platform1) || rudolph.colliding(floor) || rudolph.colliding(platform6) || rudolph.colliding(platform7)
+  || rudolph.colliding(platform8) || rudolph.colliding(platform9) || rudolph.colliding(movePlatform)
+  || rudolph.colliding(wallJump1) || rudolph.colliding(wallJump2) || rudolph.colliding(movePlatform2)))
   {
     redJumps = 1;
   }
 
-  if(sadRed.colliding(movePlatform) || sadBlue.colliding(movePlatform) || sadRed.colliding(movePlatform2) || sadBlue.colliding(movePlatform2)){
+  if(rudolph.colliding(movePlatform) || elf.colliding(movePlatform) || rudolph.colliding(movePlatform2) || elf.colliding(movePlatform2)){
     if(platform7movable.y > 440){
      platform7movable.y -= 0.7;
     }
@@ -212,7 +271,7 @@ function draw() {
     platform7movable.y = 540;
   }
 
-  if(sadRed.colliding(movePlatform2) || sadBlue.colliding(movePlatform2)){
+  if(rudolph.colliding(movePlatform2) || elf.colliding(movePlatform2)){
     if(platform2movable.x < 330){
      platform2movable.x += 0.7;
     }
@@ -222,26 +281,29 @@ function draw() {
     platform2movable.x = 120;
   }
 
-  if(sadRed.colliding(platform5Inner) || sadBlue.colliding(platform5Inner))
+  if(rudolph.colliding(platform5Inner) || elf.colliding(platform5Inner))
   {
     platform2movable.x = 330;
   }
 
-  if(sadRed.colliding(floorLava))
+  if(rudolph.colliding(floorLava))
   {
-    sadRed.pos = { x: 50, y: 560 };
+    rudolph.pos = { x: 50, y: 560 };
   }
 
-  if(sadBlue.colliding(floorLava))
+  if(elf.colliding(floorLava))
   {
-    sadBlue.pos = { x: 100, y: 560 };
+    elf.pos = { x: 100, y: 560 };
   }
 
-  if(sadRed.colliding(platform5Inner) && sadBlue.colliding(platform5Inner))
+  if(rudolph.colliding(platform5Inner) && elf.colliding(platform5Inner))
   {
     levelPassed = true;
   }
 
+  if (kb.presses('w') || kb.presses('ArrowUp')) {
+      jumpSnd.play();
+  }
 }
 
 function drawFrame() {
