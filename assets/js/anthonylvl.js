@@ -11,8 +11,6 @@ function preload() {
 
     loadSounds();
     loadIcons();
-    addBorders();
-
 
     // Loading 
     rudolph = new Sprite();
@@ -52,12 +50,14 @@ function preload() {
 }
 
 function setup() {
-
     displayMode('normal', 'pixelated');
 
     world.gravity.y = 10;
 
     initializeSprites();
+
+    addBorders();
+
 
     addWall(300, 430, 5, 300);
     addWall(500, 430, 5, 300);
