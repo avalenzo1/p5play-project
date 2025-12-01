@@ -54,6 +54,8 @@ function preload() {
 function setup() {
   createCanvas(800, 600);
 
+  displayMode('normal', 'pixelated');
+
   initializeSprites();
 
   addGift(width/2 + 180, height/2 - 20);
@@ -314,11 +316,11 @@ function drawFrame() {
 }
 
 function mouseClicked() {
-    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && levelPassed) {
         window.location.href="/hunglvl.html";
     }
 
-    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32  && (levelPassed || timeLeft <= 0)) {
         window.location.reload();
     }
 }
