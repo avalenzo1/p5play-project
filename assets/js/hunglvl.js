@@ -20,7 +20,7 @@ let door = null;   // door starts as NON-EXISTENT
 //let gameOver = false;
 let levelPassed = false;
 let levelPassedScreenInitialized = false;
-let timeLimit = 60; // seconds
+let timeLimit = 120; // seconds
 let health = 100;
 let timeLeft = timeLimit;
 let time = 60;
@@ -298,11 +298,11 @@ function draw() {
     }
 
     // Bullet kills players
-    if (b.colliding(elf)) {
-      elf.pos = { x: 50, y: 500 };
-    }
     if (b.colliding(rudolph)) {
-      rudolph.pos = { x: 750, y: 500 };
+      rudolph.pos = { x: 50, y: 500 };
+    }
+    if (b.colliding(elf)) {
+      elf.pos = { x: 750, y: 500 };
     }
   }
 
