@@ -1,4 +1,4 @@
-let sprite1, sprite2;
+let elf, rudolph;
 let floor0, floor1, floor2, floor3, floor4, floor5;
 let wall1, wall2;
 let platform;
@@ -19,33 +19,62 @@ let orbCollected = false;
 let door = null;   // door starts as NON-EXISTENT
 let gameOver = false;
 
+function preload() {
+  loadSounds();
+  loadIcons();
+
+  // Loading 
+  rudolph = new Sprite();
+  rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
+  rudolph.anis.frameDelay = 16;
+  rudolph.addAnis({
+    idle: { row: 0, frames: 1 },
+    jump: { row: 1, frames: 1 },
+    run: { row: 0, frames: 4 },
+  });
+
+  rudolph.width = 32;
+  rudolph.height = 32;
+  rudolph.rotationLock = true;
+  rudolph.bounciness = 0;
+  rudolph.friction = 1;
+  rudolph.x = 50;
+  rudolph.y = 500;
+  rudolph.changeAni('idle');
+
+  elf = new Sprite();
+  elf.width = 32;
+  elf.height = 32;
+  elf.scale.x = 1;
+  elf.scale.y = 1;
+  elf.rotationLock = true;
+  elf.x = 750;
+  elf.y = 500;
+}
+
 function setup() {
   createCanvas(800, 600);
+  displayMode('normal', 'pixelated');
+
   world.gravity.y = 10;
 
-  // Players
-  sprite1 = new Sprite(50, 500, 20, 40);
-  sprite2 = new Sprite(750, 500, 20, 40);
-  
-  sprite1.rotationLock = true;
-  sprite2.rotationLock = true;
+  //elf.friction = 0.2;
+  //rudolph.friction = 0.2;
+  // elf.bounciness = 0;
+  // rudolph.bounciness = 0;
+  // elf.drag = 0.3;
+  // rudolph.drag = 0.3;
 
-  //sprite1.friction = 0.2;
-  //sprite2.friction = 0.2;
-  sprite1.bounciness = 0;
-  sprite2.bounciness = 0;
-  sprite1.drag = 0.3;
-  sprite2.drag = 0.3;
 
   // Floors
   floor0 = new Sprite(400, 600, 800, 5, STATIC); // Bottom
   floor3 = new Sprite(400, 0, 800, 5, STATIC); // Top
   floor0.color = 'yellow';
   floor3.color = 'yellow';
-  
+
   floor1 = new Sprite(400, 475, 400, 5, STATIC); // Shrinking
   floor1.color = '#9C27B0';
-  
+
   floor2 = new Sprite(400, 150, 200, 5, STATIC); // High
   floor4 = new Sprite(600, 375, 400, 5, STATIC); // Low
   floor5 = new Sprite(700, 275, 300, 5, STATIC); // Middle
@@ -62,7 +91,7 @@ function setup() {
   // Moving platform
   platform = new Sprite(30, 275, 60, 5, KIN);
   platform.color = '#9C27B0';
-  
+
   // Collectible orb (starts on the moving platform)
   orb = new Sprite(platform.x, platform.y - 15, 15, 15);
   orb.diameter = 15;  // forces circle shape
@@ -83,18 +112,21 @@ function setup() {
   rock.bounciness = 0;
   rock.mass = 4;     // heavier object (default is 1)
   rock.drag = 0.2;   // more resistance when pushing
-  
+
   // Cannons
   cannonLeft = new Sprite(15, 100, 30, 30, STATIC);
   cannonLeft.color = 'black';
 
   cannonRight = new Sprite(785, 200, 30, 30, STATIC);
   cannonRight.color = 'black';
+
+  rudolph.scale.x = 2;
+  rudolph.scale.y = 2;
 }
 
 function draw() {
   background(220);
-  
+
   // GAME OVER SCREEN
   if (gameOver) {
     background(0);
@@ -109,7 +141,7 @@ function draw() {
 
   // Moving platform
   platform.vel.y = cos(frameCount * 2.2) * 4;
-  
+
   // Orb follows the moving platform
   if (!orbCollected) {
     orb.x = platform.x;
@@ -133,64 +165,82 @@ function draw() {
 
   // Reset jumps ONLY when standing on something solid
   if (
-    onTopOf(sprite1, floor0) || onTopOf(sprite1, floor1) ||
-    onTopOf(sprite1, floor2) || onTopOf(sprite1, floor3) ||
-    onTopOf(sprite1, floor4) || onTopOf(sprite1, floor5) ||
-    onTopOf(sprite1, sprite2) || onTopOf(sprite1, rock)
+    onTopOf(elf, floor0) || onTopOf(elf, floor1) ||
+    onTopOf(elf, floor2) || onTopOf(elf, floor3) ||
+    onTopOf(elf, floor4) || onTopOf(elf, floor5) ||
+    onTopOf(elf, rudolph) || onTopOf(elf, rock)
   ) {
     jumps = 0;
   }
 
   if (
-    onTopOf(sprite2, floor0) || onTopOf(sprite2, floor1) ||
-    onTopOf(sprite2, floor2) || onTopOf(sprite2, floor3) ||
-    onTopOf(sprite2, floor4) || onTopOf(sprite2, floor5) ||
-    onTopOf(sprite2, sprite1) || onTopOf(sprite2, rock)
+    onTopOf(rudolph, floor0) || onTopOf(rudolph, floor1) ||
+    onTopOf(rudolph, floor2) || onTopOf(rudolph, floor3) ||
+    onTopOf(rudolph, floor4) || onTopOf(rudolph, floor5) ||
+    onTopOf(rudolph, elf) || onTopOf(rudolph, rock)
   ) {
     jumps2 = 0;
   }
 
   // Jump logic
-  if (jumps < maxJumps && sprite1.vel.y >= 0 && kb.presses('w')) {
-    sprite1.vel.y = -6.5;
+  if (jumps < maxJumps && elf.vel.y >= 0 && kb.presses('w')) {
+    elf.vel.y = -6.5;
     jumps++;
   }
-  if (jumps2 < maxJumps && sprite2.vel.y >= 0 && kb.presses('arrow_up')) {
-    sprite2.vel.y = -6.5;
+  if (jumps2 < maxJumps && rudolph.vel.y >= 0 && kb.presses('arrow_up')) {
+    rudolph.vel.y = -6.5;
     jumps2++;
   }
 
   // Horizontal movement
-  sprite1.vel.x = 0;
-  if (kb.pressing('a')) sprite1.vel.x = -5;
-  if (kb.pressing('d')) sprite1.vel.x = 5;
+  elf.vel.x = 0;
+  if (kb.pressing('a')) elf.vel.x = -5;
+  if (kb.pressing('d')) elf.vel.x = 5;
 
-  sprite2.vel.x = 0;
-  if (kb.pressing('arrow_left')) sprite2.vel.x = -5;
-  if (kb.pressing('arrow_right')) sprite2.vel.x = 5;
+  rudolph.vel.x = 0;
+  if (kb.pressing('arrow_left')) rudolph.vel.x = -5;
+  if (kb.pressing('arrow_right')) rudolph.vel.x = 5;
+
+  if (kb.presses('w') || kb.presses('ArrowUp')) {
+    jumpSnd.play();
+  }
+
+  if (kb.pressing('ArrowUp')) {
+    rudolph.changeAni('jump');
+  } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
+    rudolph.changeAni('run');
+
+    if (!snowSnd.isPlaying()) {
+      snowSnd.jump(0.1);
+
+      snowSnd.play();
+    }
+  } else {
+    rudolph.changeAni('idle');
+  }
 
   // Remove friction when touching walls or platform sides (fall normally)
-  handleWallFall(sprite1);
-  handleWallFall(sprite2);
+  handleWallFall(elf);
+  handleWallFall(rudolph);
 
   // Water interaction (blue sprite lives, red sprite dies)
-  if (sprite1.overlapping(water)) {
-    //sprite1.vel.y += world.gravity.y * 0.05;
-    //sprite1.vel.x *= 0.5;
-    sprite1.color = 'blue';
-  } else sprite1.color = 'blue';
+  if (elf.overlapping(water)) {
+    //elf.vel.y += world.gravity.y * 0.05;
+    //elf.vel.x *= 0.5;
+    elf.color = 'blue';
+  } else elf.color = 'blue';
 
-  if (sprite2.overlapping(water)) {
-    sprite2.vel.y *= 0;
-    sprite2.vel.x *= 0;
-    sprite2.color = 'black';
-  } else sprite2.color = 'red';
+  if (rudolph.overlapping(water)) {
+    rudolph.vel.y *= 0;
+    rudolph.vel.x *= 0;
+    rudolph.color = 'black';
+  } else rudolph.color = 'red';
 
   // Rock sinking behavior
   if (rock.overlapping(water)) {
     rock.vel.x *= 0.5;
   }
-  
+
   // CANNONS FIRE CONTINUOUSLY
   fireCooldown--;
 
@@ -226,29 +276,29 @@ function draw() {
     }
 
     // Bullet kills players
-    if (b.colliding(sprite1)) {
-      sprite1.pos = { x: 50, y: 500 };
+    if (b.colliding(elf)) {
+      elf.pos = { x: 50, y: 500 };
     }
-    if (b.colliding(sprite2)) {
-      sprite2.pos = { x: 750, y: 500 };
+    if (b.colliding(rudolph)) {
+      rudolph.pos = { x: 750, y: 500 };
     }
   }
 
   // Player1 collects the orb
-  if (!orbCollected && sprite2.overlapping(orb)) {
+  if (!orbCollected && rudolph.overlapping(orb)) {
     orbCollected = true;
     orb.remove();  // hides the orb
     // TODO: Add sound
-    
+
     // Spawn door
     door = new Sprite(100, 500, 30, 60, STATIC);
     door.color = 'brown';
     door.layer = 1;
   }
-  
+
   // Door activation: BOTH players must touch it
-  if (!gameOver && door && 
-      sprite1.overlapping(door) && sprite2.overlapping(door)) {
+  if (!gameOver && door &&
+    elf.overlapping(door) && rudolph.overlapping(door)) {
     gameOver = true;
   }
 
@@ -256,8 +306,8 @@ function draw() {
   if (kb.presses('r')) {
     gameOver = false;
 
-    sprite1.pos = { x: 50, y: 500 };
-    sprite2.pos = { x: 750, y: 500 };
+    elf.pos = { x: 50, y: 500 };
+    rudolph.pos = { x: 750, y: 500 };
 
     floor1.w = 410;
 
@@ -279,7 +329,7 @@ function onTopOf(a, b) {
   return (
     a.colliding(b) &&            // must be touching
     a.vel.y >= 0 &&              // must be falling or resting
-    (a.y + a.h/2) <= (b.y - b.h/4) // must be above the object
+    (a.y + a.h / 2) <= (b.y - b.h / 4) // must be above the object
   );
 }
 
@@ -289,7 +339,7 @@ function handleWallFall(s) {
     s.colliding(wall1) ||
     s.colliding(wall2) ||
     (s.colliding(floor1) ||
-    s.colliding(floor2))
+      s.colliding(floor2))
   ) {
     s.friction = 0; // prevents sticking
     console.log('Function is working');
