@@ -244,7 +244,7 @@ function mouseClicked() {
         window.location.href="/jakublvl.html";
     }
 
-    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && !levelPassed) {
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && (!levelPassed || timeLeft <= 0)) {
         window.location.reload();
     }
 }
