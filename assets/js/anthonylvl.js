@@ -1,5 +1,25 @@
-let levelPassed = false, platform1Return = false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
+let levelPassed = false, platform1Return = false, platform2Return =false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
 let jumpSnd, snowSnd, giftSnd, levelPassSnd;
+let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg;
+let timeLimit = 60; // seconds
+let health = 100;
+let timeLeft = timeLimit;
+let time = 60;
+
+let levelPassedScreenInitialized = false;
+
+function loadIcons() {
+    voidStarImg = loadImage('/assets/images/sprites/voidStar.png');
+    starImg = loadImage('/assets/images/sprites/star.png');
+
+    nextLevelImg = loadImage('/assets/images/sprites/nextLevel.png');
+    nextLevelHoverImg = loadImage('/assets/images/sprites/nextLevelHover.png');
+    nextLevelClickedImg = loadImage('/assets/images/sprites/nextLevelClicked.png');
+
+    replayLevelImg = loadImage('/assets/images/sprites/replayLevel.png');
+    replayLevelHoverImg = loadImage('/assets/images/sprites/replayLevelHover.png');
+    replayLevelClickedImg = loadImage('/assets/images/sprites/replayLevelClicked.png');
+}
 
 function preload() {
     createCanvas(800, 600);
@@ -8,6 +28,9 @@ function preload() {
     snowSnd = loadSound('/assets/sounds/snow.mp3');
     giftSnd = loadSound('/assets/sounds/gift.mp3');
     levelPassSnd = loadSound('/assets/sounds/levelPass.mp3');
+
+    loadIcons();
+
 
     // Loading 
     rudolph = new Sprite();
@@ -96,24 +119,47 @@ function setup() {
 function draw() {
     background(200);
 
+    if (levelPassed) {
+        return;
+    }
+
     if (rudolph.colliding(pad1)) {
-        if (platform1.y > 350 && !platform1Return) {
-            platform1.vel.y = -2;
-        } else if (platform1.y < 350) {
+        if (platform1Return) {
             platform1.vel.y = 2;
+
+            if (platform1.y > height - 20) {
+                platform1Return = false;
+            }
+        } else {
+            platform1.vel.y = -2;
+
+            if (platform1.y < 350) {
+                platform1Return = true;
+            }
         }
+
+        // if (platform1.y > 350) {
+            
+        // } else if (platform1.y < 350) {
+        //     platform1.vel.y = 2;
+        // }
     } else {
         platform1.vel.y = 0;
     }
 
     if (elf.colliding(pad2)) {
-        pad1.y = height - 20;
-
-        if (platform2.y > 200) {
-            platform2.vel.y = -2;
-            platform2Return = true;
-        } else {
+        if (platform2Return) {
             platform2.vel.y = 2;
+
+            if (platform2.y > height - 20) {
+                platform2Return = false;
+            }
+        } else {
+            platform2.vel.y = -2;
+
+            if (platform2.y < 200) {
+                platform2Return = true;
+            }
         }
     } else {
         platform2.vel.y = 0;
@@ -171,7 +217,7 @@ function draw() {
         rudolph.changeAni('idle');
     }
 
-    if (score == 5) {
+    if (score >= 500) {
         levelPassed = true;
     }
 
@@ -186,14 +232,78 @@ function drawFrame() {
 
 }
 
+function mouseClicked() {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.href="/adrianlvl.html";
+    }
+
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.reload();
+    }
+}
+
 function drawUI() {
-    text(`Score: ${score}`, 24, 24);
+    noStroke();
+    fill(0);
+    textSize(18);
+    text(`Score: ${score}`, 20, 60);
+
+    // GUI: Timer
+    text(`Time Left: ${timeLeft}s`, 20, 30);
+
+    if(timeLeft > 0){
+      if(time < 0){
+        
+        timeLeft--;  
+        time = 60;
+      }
+      time--;
+    }
 
     if (levelPassed) {
-        noLoop();
+        if (!levelPassedScreenInitialized) {
+            score += timeLeft * 100;
+            levelPassSnd.play();
+
+            levelPassedScreenInitialized = true;
+        }
+
+        background("#0004")
+
         textSize(32);
         textAlign(CENTER);
-        text(`LEVEL PASSED!`, width / 2, height / 2);
-        levelPassSnd.play();
+        text(`LEVEL PASSED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+
+        if (score >= 600) {
+            image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 2500) {
+            image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 4600) {
+            image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+            image(nextLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        } else {
+            image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
     }
 }

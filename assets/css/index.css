@@ -15,3 +15,7 @@ html, body {
 canvas {
   display: block;
 }
+
+.p5-normal {
+  position: relative;
+}

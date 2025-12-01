@@ -2,6 +2,7 @@ let floors;
 let walls;
 let gifts;
 let score = 0;
+let timer = 60;
 let kaFont;
 
 function addFloor(x, y, w, h) {
@@ -36,7 +37,7 @@ function checkForGift() {
         if (elf.colliding(gifts[i]) || rudolph.colliding(gifts[i])) {
             gifts[i].remove();
             giftSnd.play();
-            score++;
+            score += 100;
         }
     }
 }
