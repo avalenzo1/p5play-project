@@ -9,7 +9,7 @@ const dialogue = [
     "Santa is dumb sjdfijblasbdjfihsjdhfbiksdhbfk",
     "hriasehbfisbhdf9bsdifbsodbfib",
     "idk",
-    "bruh"
+    "Santa's elf and and Rudolph must now save Christmas!"
 ];
 
 let currentLine = 0;
