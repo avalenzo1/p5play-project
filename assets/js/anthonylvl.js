@@ -1,6 +1,4 @@
 let levelPassed = false, platform1Return = false, platform2Return =false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
-let jumpSnd, snowSnd, giftSnd, levelPassSnd;
-let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg;
 let timeLimit = 60; // seconds
 let health = 100;
 let timeLeft = timeLimit;
@@ -8,29 +6,11 @@ let time = 60;
 
 let levelPassedScreenInitialized = false;
 
-function loadIcons() {
-    voidStarImg = loadImage('/assets/images/sprites/voidStar.png');
-    starImg = loadImage('/assets/images/sprites/star.png');
-
-    nextLevelImg = loadImage('/assets/images/sprites/nextLevel.png');
-    nextLevelHoverImg = loadImage('/assets/images/sprites/nextLevelHover.png');
-    nextLevelClickedImg = loadImage('/assets/images/sprites/nextLevelClicked.png');
-
-    replayLevelImg = loadImage('/assets/images/sprites/replayLevel.png');
-    replayLevelHoverImg = loadImage('/assets/images/sprites/replayLevelHover.png');
-    replayLevelClickedImg = loadImage('/assets/images/sprites/replayLevelClicked.png');
-}
-
 function preload() {
     createCanvas(800, 600);
 
-    jumpSnd = loadSound('/assets/sounds/jump.mp3');
-    snowSnd = loadSound('/assets/sounds/snow.mp3');
-    giftSnd = loadSound('/assets/sounds/gift.mp3');
-    levelPassSnd = loadSound('/assets/sounds/levelPass.mp3');
-
+    loadSounds();
     loadIcons();
-
 
     // Loading 
     rudolph = new Sprite();
@@ -199,7 +179,7 @@ function draw() {
         elf.vel.y = -4;
     }
 
-    if (kb.presses('w') || kb.presses('ArrowUpr')) {
+    if (kb.presses('w') || kb.presses('ArrowUp')) {
         jumpSnd.play();
     }
 

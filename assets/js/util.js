@@ -4,6 +4,8 @@ let gifts;
 let score = 0;
 let timer = 60;
 let kaFont;
+let jumpSnd, snowSnd, giftSnd, levelPassSnd;
+let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg;
 
 function addFloor(x, y, w, h) {
     let newFloor = new floors.Sprite(x, y, w, h,STATIC);
@@ -71,4 +73,24 @@ function initializeSprites() {
 
     kaFont = loadFont('/assets/fonts/ka1.ttf');
     textFont(kaFont);
+}
+
+function loadIcons() {
+    voidStarImg = loadImage('/assets/images/sprites/voidStar.png');
+    starImg = loadImage('/assets/images/sprites/star.png');
+
+    nextLevelImg = loadImage('/assets/images/sprites/nextLevel.png');
+    nextLevelHoverImg = loadImage('/assets/images/sprites/nextLevelHover.png');
+    nextLevelClickedImg = loadImage('/assets/images/sprites/nextLevelClicked.png');
+
+    replayLevelImg = loadImage('/assets/images/sprites/replayLevel.png');
+    replayLevelHoverImg = loadImage('/assets/images/sprites/replayLevelHover.png');
+    replayLevelClickedImg = loadImage('/assets/images/sprites/replayLevelClicked.png');
+}
+
+function loadSounds() {
+    jumpSnd = loadSound('/assets/sounds/jump.mp3');
+    snowSnd = loadSound('/assets/sounds/snow.mp3');
+    giftSnd = loadSound('/assets/sounds/gift.mp3');
+    levelPassSnd = loadSound('/assets/sounds/levelPass.mp3');
 }
