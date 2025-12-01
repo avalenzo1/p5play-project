@@ -38,7 +38,8 @@ function preload() {
         jump: { row: 1, frames: 1 },
         run: { row: 0, frames: 4 },
     });
-    rudolph.changeAni('idle');
+    elf.changeAni('idle');
+    elf.anis.frameDelay = 16;
     elf.width = 32;
     elf.height = 32;
     elf.scale.x = 1;
@@ -272,7 +273,7 @@ function drawUI() {
             levelPassedScreenInitialized = true;
         }
 
-        background("#0004")
+        background("#fff");
 
         textSize(32);
         textAlign(CENTER);
