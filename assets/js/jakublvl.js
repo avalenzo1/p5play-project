@@ -10,6 +10,45 @@ let timeLeft = timeLimit;
 let time = 60;
 let gameActive = true;
 
+let score;
+let levelPassed = false;
+let levelPassedScreenInitialized = false;
+
+function preload() {
+    createCanvas(800, 600);
+
+    loadSounds();
+    loadIcons();
+
+    // Loading 
+    rudolph = new Sprite();
+    rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
+    rudolph.anis.frameDelay = 16;
+    rudolph.addAnis({
+        idle: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
+        run: { row: 0, frames: 4 },
+    });
+
+    rudolph.width = 32;
+    rudolph.height = 32;
+    rudolph.rotationLock = true;
+    rudolph.bounciness = 0;
+    rudolph.friction = 1;
+    rudolph.x = 100;
+    rudolph.y = height - 50;
+    rudolph.changeAni('idle');
+
+    elf = new Sprite();
+    elf.width = 32;
+    elf.height = 32;
+    elf.scale.x = 1;
+    elf.scale.y = 1;
+    elf.rotationLock = true;
+    elf.x = 600;
+    elf.y = height - 20;
+}
+
 function setup() {
   createCanvas(800, 600);
   world.gravity.y = 9.8; 
@@ -92,13 +131,13 @@ function setup() {
   sadRed.color = 'red';
   sadRed.stroke = 0;
   sadRed.text = ":(";
-  redJump = 1;
+  redJumps = 1;
   
   sadBlue = new Sprite(100, 560, 40, DYNAMIC);
   sadBlue.color = 'lightblue';
   sadBlue.stroke = 0;
   sadBlue.text = ":(";
-  blueJump = 1;
+  blueJumps = 1;
 }
 
 function makeGUI() {
@@ -130,8 +169,8 @@ function gameOver() {
 function restartGame() {
   sadRed.pos = { x: 50, y: 560 };
   sadBlue.pos = { x: 100, y: 560 };
-  redJump = 1;
-  blueJump = 1;
+  redJumps = 1;
+  blueJumps = 1;
 
   timeLeft = timeLimit;
   time = 60;
@@ -160,32 +199,32 @@ function draw() {
   else if (kb.pressing('arrow_right')) sadBlue.vel.x = 5;
   else sadBlue.vel.x = 0;
 
-  if(blueJump >= 1 && kb.presses('arrow_up')){
+  if(blueJumps > 0 && kb.presses('arrow_up')){
        sadBlue.vel.y = -5;
-      blueJump--;
+      blueJumps--;
   }
 
   if(sadBlue.vel.y >= 0 && (sadBlue.colliding(platform1) || sadBlue.colliding(floor) || sadBlue.colliding(platform6) || sadBlue.colliding(platform7)
   || sadBlue.colliding(platform8) || sadBlue.colliding(platform9) || sadBlue.colliding(movePlatform)
   || sadBlue.colliding(wallJump1) || sadBlue.colliding(wallJump2) || sadBlue.colliding(movePlatform2)))
   {
-    blueJump = 1;
+    blueJumps = 1;
   }
 
   if (kb.pressing('a')) sadRed.vel.x = -5;
   else if (kb.pressing('d')) sadRed.vel.x = 5;
   else sadRed.vel.x = 0;
 
-  if(redJump >= 1 && kb.presses('w')){
+  if(redJumps > 0 && kb.presses('w')){
        sadRed.vel.y = -5;
-      redJump--;
+      redJumps--;
   }
 
   if(sadRed.vel.y >= 0 && (sadRed.colliding(platform1) || sadRed.colliding(floor) || sadRed.colliding(platform6) || sadRed.colliding(platform7)
   || sadRed.colliding(platform8) || sadRed.colliding(platform9) || sadRed.colliding(movePlatform)
   || sadRed.colliding(wallJump1) || sadRed.colliding(wallJump2) || sadRed.colliding(movePlatform2)))
   {
-    redJump = 1;
+    redJumps = 1;
   }
 
   if(sadRed.colliding(movePlatform) || sadBlue.colliding(movePlatform) || sadRed.colliding(movePlatform2) || sadBlue.colliding(movePlatform2)){
@@ -213,9 +252,14 @@ function draw() {
     platform2movable.x = 330;
   }
 
-  if(sadBlue.colliding(floorLava) || sadRed.colliding(floorLava))
+  if(sadRed.colliding(floorLava))
   {
-    restartGame();
+    sadRed.pos = { x: 50, y: 560 };
+  }
+
+  if(sadBlue.colliding(floorLava))
+  {
+    sadBlue.pos = { x: 100, y: 560 };
   }
 
 }
