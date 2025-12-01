@@ -156,6 +156,7 @@ function draw() {
     }
 
     if (rudolph.colliding(pad3)) {
+        latch.width = 20
         latch.physics = DYNAMIC;
     }
 
