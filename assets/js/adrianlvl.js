@@ -450,6 +450,9 @@ function makeGUI(){
     // GUI: Timer
     text(`Time Left: ${timeLeft}s`, 20, 30);
 
+    text(`2 Player game`, 500, 550);
+    text(`Use WASD and Arrow Keys`, 450, 580);
+
     if(timeLeft > 0){
       if(time < 0){
         

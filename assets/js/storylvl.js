@@ -89,11 +89,12 @@ function drawDialogue() {
 
             if (currentLine == 2) {
                 if (!bellSnd.isPlaying()) {
+                    bellSnd.setVolume(0.01);
                     bellSnd.play();
                 }
 
                 if (!fahSnd.isPlaying()) {
-                    fahSnd.setVolume(0.05)
+                    fahSnd.setVolume(0.01)
                     fahSnd.play();
 
                 }
