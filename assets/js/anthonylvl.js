@@ -313,4 +313,26 @@ function drawUI() {
             image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
         }
     }
+
+    if (timeLeft <= 0 && !levelPassed) {
+        background("#F00");
+
+        textSize(32);
+        textAlign(CENTER);
+        text(`LEVEL FAILED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
+    }
 }
