@@ -184,6 +184,7 @@ function makePlayers(){
     rudolph.x = 110;
     rudolph.y = 550;
     rudolph.changeAni('idle');
+    // rudolph.scale = 1.25;
 
     elf = new Sprite();
     elf.spriteSheet = '/assets/images/sprites/elf.png';
@@ -366,16 +367,16 @@ function destructor(){
 
 function gameOver(){
   noLoop();
-    textSize(64);
-    textAlign(CENTER);
-    clear();
-    fill(255);
-    destructor();
-    circle(400,300,1000);
-    fill('black');
-    text('Game Over', width / 2, height / 2);
-    textSize(32);
-    text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+  textSize(64);
+  textAlign(CENTER);
+  clear();
+  fill(255);
+  destructor();
+  circle(400,300,1000);
+  fill('black');
+  text('Game Over', width / 2, height / 2);
+  textSize(32);
+  text(`Final Score: ${score}`, width / 2, height / 2 + 64);
 }
 
 function mouseClicked() {
@@ -483,6 +484,7 @@ function draw() {
       rudolph.pos = { x: 50, y: 550 };
       elf.pos = { x: 105, y: 550 };
       time = 60;
+      timeLeft = timeLimit;
     }
   }//end of game timer
 }
