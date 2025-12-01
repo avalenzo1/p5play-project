@@ -379,13 +379,12 @@ function gameOver(){
 }
 
 function mouseClicked() {
-    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
-        window.location.href="/anthonylvl.html";
-    }
-
-    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
-        window.location.reload();
-    }
+  if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+      window.location.href="antlvl.html";
+  }
+  if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+      window.location.reload();
+  }
 }
 
 function passedLevel(){
@@ -409,11 +408,9 @@ function passedLevel(){
       if (score >= 600) {
             image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
         }
-
         if (score >= 2500) {
             image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
         }
-
         if (score >= 4600) {
             image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
         }
@@ -421,11 +418,17 @@ function passedLevel(){
     textSize(32);
     text(`Final Score: ${score}`, width / 2, height / 2 + 64);
 
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+      image(nextLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
+    } else {
+      image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
+    }
+
     if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
-            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
-        } else {
-            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
-        }
+      image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+    } else {
+      image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+    }
 }
 
 function makeGUI(){
