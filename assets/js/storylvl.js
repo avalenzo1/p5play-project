@@ -20,7 +20,7 @@ let playExplosion = false, playedExplosion = false; // present and future tense
 const dialogue = [
     "Press the [Enter] key to continue.",
     "Santa was slaying the day before Christmas",
-    "but Santa is dumb -- he forgot to put gasoline on the reindeers]...",
+    "but Santa is dumb -- he forgot to put gasoline on the sleigh]...",
     "idk",
     "Santa's elf and and Rudolph must now save Christmas!"
 ];
