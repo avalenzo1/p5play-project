@@ -25,6 +25,7 @@ let jumps = 0;
 let jumps2 = 0;
 
 let rudolph, elf;
+let levelPassed = false
 
 function preload() {
     createCanvas(800, 600);
@@ -161,9 +162,8 @@ function level1Layout(){
 
 }
 
-function draw() {
-
-}
+// function draw() {
+// }
 
 function drawFrame(){
   // camera.x = cameraTarget.x;
@@ -283,8 +283,6 @@ function playerJumps(){
   }
 }
 
-
-
 function playerMovement(){
   if (kb.pressing('a')) {
     rudolph.vel.x = -4;
@@ -389,7 +387,7 @@ function gameOver(){
 }
 
 function mouseClicked() {
-  if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+  if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && levelPassed) {
       window.location.href="antlvl.html";
   }
   if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
@@ -400,6 +398,7 @@ function mouseClicked() {
 function passedLevel(){
   let timeToScore = timeLeft * 100;
   score += timeToScore;
+  levelPassed = true;
   clear();
   noLoop();
   levelPassSnd.play();
