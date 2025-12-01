@@ -1,4 +1,4 @@
-let sprite1,sprite2, sprite3, sprite4Group;
+let sprite3, sprite4;
 
 let floor1, roof1;
 let wall, wall2;
@@ -11,16 +11,16 @@ let platform;
 
 let winFloor1, winFloor2;
 
-let cameraTarget;
-let zoomedIn = false;
+// let cameraTarget;
+// let zoomedIn = false;
 // let timeLimit = 90; // seconds
 let timeLimit = 60; // seconds
 let health = 100;
-let score = 0;
+// let score = 0;
 let timeLeft = timeLimit;
 let time = 60;
 
-let maxJumps = 2;
+let maxJumps = 1;
 let jumps = 0;
 let jumps2 = 0;
 
@@ -31,7 +31,7 @@ function preload() {
 
     loadSounds();
     loadIcons();
-    addBorders();
+    // addBorders();
 }
 
 function boxLayout(){
@@ -42,6 +42,7 @@ function boxLayout(){
   floor1.w = 800;
   floor1.h = 5;
   floor1.physics = STATIC;
+  floor1.friction = 0;
   
   roof1 = new Sprite();
   roof1.color = 'green';
@@ -50,6 +51,7 @@ function boxLayout(){
   roof1.w = 800;
   roof1.h = 5;
   roof1.physics = STATIC;
+  roof1.friction = 0;
   
   wall = new Sprite();
   wall.color = 'green';
@@ -57,6 +59,7 @@ function boxLayout(){
   wall.w = 5;
   wall.h = 580;
   wall.physics = STATIC;
+  wall.friction = 0;
   
   wall2 = new Sprite();
   wall2.color = 'green';
@@ -64,6 +67,7 @@ function boxLayout(){
   wall2.w = 5;
   wall2.h = 600;
   wall2.physics = STATIC;
+  wall2.friction = 0;
   
 }
 
@@ -74,6 +78,7 @@ function level1Layout(){
     gameWall1.w = 7.5;
     gameWall1.h = 525;
     gameWall1.y = 335;
+    gameWall1.friction = 0;
   
     gameWall2 = new Sprite();
     gameWall2.color = 'darkgreen';
@@ -82,6 +87,7 @@ function level1Layout(){
     gameWall2.h = 500;
     gameWall2.y = 255;
     gameWall2.x = 480;
+    gameWall2.friction = 0;
   
     gameWall3 = new Sprite();
     gameWall3.color = 'darkgreen';
@@ -90,6 +96,7 @@ function level1Layout(){
     gameWall3.h = 350;
     gameWall3.y = 355;
     gameWall3.x = 700;
+    gameWall3.friction = 0;
   
   // gameFloor1,gameFloor2, gameFloor3;
   
@@ -100,6 +107,7 @@ function level1Layout(){
   gameFloor1.h = 7.5;
   gameFloor1.y = 500;
   gameFloor1.x = 170;
+  gameFloor1.friction = 0;
   
   gameFloor2 = new Sprite();
   gameFloor2.color = 'darkgreen';
@@ -108,6 +116,7 @@ function level1Layout(){
   gameFloor2.h = 7.5;
   gameFloor2.y = 400;
   gameFloor2.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor2.friction = 0;
   
   gameFloor3 = new Sprite();
   gameFloor3.color = 'darkgreen';
@@ -116,6 +125,7 @@ function level1Layout(){
   gameFloor3.h = 7.5;
   gameFloor3.y = 300;
   gameFloor3.x = 170;
+  gameFloor3.friction = 0;
   
   gameFloor4 = new Sprite();
   gameFloor4.color = 'darkgreen';
@@ -124,6 +134,7 @@ function level1Layout(){
   gameFloor4.h = 7.5;
   gameFloor4.y = 200;
   gameFloor4.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor4.friction = 0;
   
   gameFloor5 = new Sprite();
   gameFloor5.color = 'darkgreen';
@@ -132,6 +143,7 @@ function level1Layout(){
   gameFloor5.h = 7.5;
   gameFloor5.y = 100;
   gameFloor5.x = 170;
+  gameFloor5.friction = 0;
   
   winFloor1 = new Sprite();
   winFloor1.static = true;
@@ -140,47 +152,21 @@ function level1Layout(){
   winFloor1.y = 90;
   winFloor1.h = 7.5;
   winFloor1.w = 160;
+  winFloor1.friction = 0;
   
   platform = new Sprite(550, 350, 60, 5, KIN);
+
 }
 
 function drawFrame(){
-  camera.x = cameraTarget.x;
-  camera.y = cameraTarget.y;
-  camera.zoom = zoomedIn ? 0.95: 0.5; 
-  camera.y -= 200;
+  // camera.x = cameraTarget.x;
+  // camera.y = cameraTarget.y;
+  // camera.zoom = zoomedIn ? 0.95: 0.5; 
+  // camera.y -= 200;
+  allSprites.draw();
 }
 
 function makePlayers(){
-  // sprite1 = new Sprite();
-  // sprite1.w = 40;
-  // sprite1.h = 40;
-  // sprite1.x = 110;
-  // sprite1.y = 550;
-  // sprite1.color = 'green';
-  // sprite1.strokeWeight = 6;
-  // sprite1.stroke = '';
-  // // sprite1.rotation = 45;
-  // sprite1.collider = 'dynamic';
-
-
-  
-  // cameraTarget = sprite1;
-  
-  // sprite2 = new Sprite();
-  // // sprite2.d = 40;
-  // // sprite2.scale = 2;
-  // sprite2.w = 40;
-  // sprite2.h = 40;
-  
-  // sprite2.x = 50;
-  // sprite2.y = 550;
-  // sprite2.stroke = 'black';
-  // sprite2.text = 'Hello World';
-  // sprite2.textColor = 'white';
-  // sprite2.textSize = 14;
-
-  // Loading 
     rudolph = new Sprite();
     rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
     rudolph.anis.frameDelay = 16;
@@ -221,14 +207,13 @@ function makeCollects(){
   sprite3 = new Sprite();
   sprite3.static = true;
   sprite3.x = 50;
-  sprite3.y = 50;
+  sprite3.y = 80;
   sprite3.w = 32;
   sprite3.h = 32;
   sprite3.scale = 2;
   sprite3.image = 'assets/images/sprites/gift.png';
-  // sprite3.collider = 'dynamic';
-  // sprite3.mass = 0;
-  
+  sprite3.scale = 1;
+
   sprite4 = new Sprite();
   sprite4.static = true;
   sprite4.x = 750;
@@ -238,17 +223,16 @@ function makeCollects(){
   sprite4.h = 32;
   sprite4.scale = 2;
   sprite4.image = 'assets/images/sprites/gift.png';
-  // sprite4.collider = 'dynamic';
-  // sprite4.mass = 0;
+  sprite4.scale = 1;
 }
 
 function collect(){
-  if (sprite1.overlaps(sprite3) || sprite2.overlaps(sprite3)) {
+  if (rudolph.overlaps(sprite3) || elf.overlaps(sprite3)) {
     score += 100;
       sprite3.remove();
     }
     
-    if (sprite1.overlaps(sprite4) || sprite2.overlaps(sprite4)) {
+    if (rudolph.overlaps(sprite4) || elf.overlaps(sprite4)) {
       score += 500;
       sprite4.remove();
   }
@@ -258,37 +242,41 @@ function playerJumps(){
   resetJumps();
   if(jumps < maxJumps && kb.presses('w')){
     //if(kb.presses('w')){
-       sprite1.vel.y = -10;
+      rudolph.changeAni('jump');
+       rudolph.vel.y = -7;
       jumps++;
+      jumpSnd.play();
     //}  w
   }
   
   if(jumps2 < maxJumps && kb.presses('arrow_up')){
     //if(kb.presses('up')){
-       sprite2.vel.y = -10;
+       elf.vel.y = -7;
+       elf.changeAni('jump');
       jumps2++;
+      jumpSnd.play();
    // }  
   }
 }
 
 function playerMovement(){
-  if (kb.pressing('a')) sprite1.vel.x = -10;
-    else if (kb.pressing('d')) sprite1.vel.x = 10;
-    else sprite1.vel.x = 0;
+  if (kb.pressing('a')) rudolph.vel.x = -10;
+    else if (kb.pressing('d')) rudolph.vel.x = 10;
+    else rudolph.vel.x = 0;
 
-    if (kb.pressing('arrow_left')) sprite2.vel.x = -5;
-    else if (kb.pressing('arrow_right')) sprite2.vel.x = 5;
-    else sprite2.vel.x = 0;
+    if (kb.pressing('arrow_left')) elf.vel.x = -5;
+    else if (kb.pressing('arrow_right')) elf.vel.x = 5;
+    else elf.vel.x = 0;
 }
 
 function resetJumps(){
-  if(sprite1.colliding(floor1) || sprite1.colliding(gameFloor1) || sprite1.colliding(gameFloor2) || sprite1.colliding(gameFloor3) || sprite1.colliding(gameFloor4) || sprite1.colliding(gameFloor5)
+  if(rudolph.colliding(floor1) || rudolph.colliding(gameFloor1) || rudolph.colliding(gameFloor2) || rudolph.colliding(gameFloor3) || rudolph.colliding(gameFloor4) || rudolph.colliding(gameFloor5)
     
     ) {
   jumps = 0;
   }
   
-  if(sprite2.colliding(floor1) || sprite2.colliding(gameFloor1) || sprite2.colliding(gameFloor2) || sprite2.colliding(gameFloor3) || sprite2.colliding(gameFloor4) || sprite2.colliding(gameFloor5)
+  if(elf.colliding(floor1) || elf.colliding(gameFloor1) || elf.colliding(gameFloor2) || elf.colliding(gameFloor3) || elf.colliding(gameFloor4) || elf.colliding(gameFloor5)
     ){
   jumps2 = 0;
   }
@@ -308,8 +296,8 @@ function setup() {
 }
 
 function destructor(){
-  sprite1.remove();
-  sprite2.remove();
+  rudolph.remove();
+  elf.remove();
   if (sprite3) {
     sprite3.remove();
   }
@@ -331,6 +319,7 @@ function destructor(){
   gameWall3.remove();
   platform.remove();
   clear();
+  background("#fff");
 }
 
 function gameOver(){
@@ -350,21 +339,35 @@ function gameOver(){
 function passedLevel(){
   let timeToScore = timeLeft * 100;
   score += timeToScore;
+  clear();
   noLoop();
+  levelPassSnd.play();
     textSize(64);
     textAlign(CENTER);
     clear();
+    background("#fff");
     fill(255);
     destructor();
     circle(400,300,1000);
     fill('black');
-    text('Level Passed', width / 2, height / 2);
+    text('Level Passed', width / 2, height / 2 - 50);
       image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
-        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
-        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+      image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+      image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+      if (score >= 600) {
+            image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 2500) {
+            image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 4600) {
+            image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
+        }
+
     textSize(32);
     text(`Final Score: ${score}`, width / 2, height / 2 + 64);
-  
 }
 
 function makeGUI(){
@@ -390,28 +393,19 @@ function makeGUI(){
 function draw() {
   background(220);
   
-  sprite1.rotation = 0;
-  sprite2.rotation = 0;
+  rudolph.rotation = 0;
+  elf.rotation = 0;
   
   if (timeLeft === 0) {
     gameOver();
   }else{
-    if (mouse.presses()){
-      zoomedIn = !zoomedIn;
-    }
     
    playerJumps();
     
     //checks for win
-    if(sprite1.colliding(winFloor1) && sprite2.colliding(winFloor1)){
+    if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
        passedLevel();
     }
-    
-    // //instuctions on corner
-    // fill(0);
-    // text(`2 players catch kirby`, 630, 20);
-    // text(`player 1 catch kirby to add score(awsd)`, 485, 40);
-    // text(`player 2 catch kirby deal dmg(arrows)`, 500, 60);
 
     makeGUI();
     
@@ -424,11 +418,9 @@ function draw() {
     //reset the level
     if(kb.presses('r')){
       //restart game;
-      sprite1.pos = { x: 50, y: 550 };
-      sprite2.pos = { x: 105, y: 550 };
+      rudolph.pos = { x: 50, y: 550 };
+      elf.pos = { x: 105, y: 550 };
       time = 60;
-      zoomedIn = false;
-      // sprite3.pos = { x: 400, y: 400 };
     }
   }//end of game timer
 }
