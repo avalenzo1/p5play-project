@@ -11,6 +11,8 @@ function preload() {
 
     loadSounds();
     loadIcons();
+    addBorders();
+
 
     // Loading 
     rudolph = new Sprite();

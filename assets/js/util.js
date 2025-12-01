@@ -69,8 +69,6 @@ function initializeSprites() {
     walls = new Group();
     gifts = new Group();
 
-    addBorders();
-
     kaFont = loadFont('/assets/fonts/ka1.ttf');
     textFont(kaFont);
 }
