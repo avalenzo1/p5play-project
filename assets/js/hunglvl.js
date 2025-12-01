@@ -31,6 +31,7 @@ function preload() {
     idle: { row: 0, frames: 1 },
     jump: { row: 1, frames: 1 },
     run: { row: 0, frames: 4 },
+    frozen: { row: 2, frames: 1 },
   });
 
   rudolph.width = 32;
@@ -194,12 +195,24 @@ function draw() {
 
   // Horizontal movement
   elf.vel.x = 0;
-  if (kb.pressing('a')) elf.vel.x = -5;
-  if (kb.pressing('d')) elf.vel.x = 5;
+
+  if (kb.pressing('a')) {
+    elf.vel.x = -5;
+  }
+
+  if (kb.pressing('d')) {
+    elf.vel.x = 5;
+  }
 
   rudolph.vel.x = 0;
-  if (kb.pressing('arrow_left')) rudolph.vel.x = -5;
-  if (kb.pressing('arrow_right')) rudolph.vel.x = 5;
+  if (kb.pressing('arrow_left')) {
+    rudolph.scale.x = -2;
+    rudolph.vel.x = -5;
+  }
+  if (kb.pressing('arrow_right')) {
+    rudolph.scale.x = 2;
+    rudolph.vel.x = 5;
+  }
 
   if (kb.presses('w') || kb.presses('ArrowUp')) {
     jumpSnd.play();
@@ -210,7 +223,7 @@ function draw() {
   } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
     rudolph.changeAni('run');
 
-    if (!snowSnd.isPlaying()) {
+    if (!snowSnd.isPlaying() && !rudolph.overlapping(water)) {
       snowSnd.jump(0.1);
 
       snowSnd.play();
@@ -234,6 +247,7 @@ function draw() {
     rudolph.vel.y *= 0;
     rudolph.vel.x *= 0;
     rudolph.color = 'black';
+    rudolph.changeAni('frozen');
   } else rudolph.color = 'red';
 
   // Rock sinking behavior
