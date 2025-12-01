@@ -12,6 +12,7 @@ function setup() {
 let santaSleigh;
 let bellSnd;
 let fortniteSnd;
+let fahSnd;
 let explosionSnd;
 let explosionGif;
 let playExplosion = false, playedExplosion = false; // present and future tense
@@ -36,6 +37,7 @@ explosionSnd = loadSound('/assets/sounds/explosion.mp3');
 explosionGif = loadImage('/assets/images/sprites/explosion.gif');
 fortniteSnd = loadSound('/assets/sounds/death.mp3');
 bellSnd = loadSound('/assets/sounds/bell.mp3');
+fahSnd = loadSound('/assets/sounds/fahhhhhhhhhhhhhh.mp3');
 }
 
 let cloudX = 0;
@@ -88,6 +90,11 @@ function drawDialogue() {
             if (currentLine == 2) {
                 if (!bellSnd.isPlaying()) {
                     bellSnd.play();
+                }
+
+                if (!fahSnd.isPlaying()) {
+                    fahSnd.play();
+
                 }
 
                 santaSleigh.image = "/assets/images/sprites/santaSadSleigh.png"
