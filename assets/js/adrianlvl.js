@@ -24,6 +24,16 @@ let maxJumps = 2;
 let jumps = 0;
 let jumps2 = 0;
 
+let rudolph, elf;
+
+function preload() {
+    createCanvas(800, 600);
+
+    loadSounds();
+    loadIcons();
+    addBorders();
+}
+
 function boxLayout(){
   floor1 = new Sprite();
   floor1.color = 'green';
@@ -142,31 +152,69 @@ function drawFrame(){
 }
 
 function makePlayers(){
-  sprite1 = new Sprite();
-  sprite1.w = 40;
-  sprite1.h = 40;
-  sprite1.x = 110;
-  sprite1.y = 550;
-  sprite1.color = 'green';
-  sprite1.strokeWeight = 6;
-  sprite1.stroke = '';
-  // sprite1.rotation = 45;
-  sprite1.collider = 'dynamic';
+  // sprite1 = new Sprite();
+  // sprite1.w = 40;
+  // sprite1.h = 40;
+  // sprite1.x = 110;
+  // sprite1.y = 550;
+  // sprite1.color = 'green';
+  // sprite1.strokeWeight = 6;
+  // sprite1.stroke = '';
+  // // sprite1.rotation = 45;
+  // sprite1.collider = 'dynamic';
+
+
   
-  cameraTarget = sprite1;
+  // cameraTarget = sprite1;
   
-  sprite2 = new Sprite();
-  // sprite2.d = 40;
-  // sprite2.scale = 2;
-  sprite2.w = 40;
-  sprite2.h = 40;
+  // sprite2 = new Sprite();
+  // // sprite2.d = 40;
+  // // sprite2.scale = 2;
+  // sprite2.w = 40;
+  // sprite2.h = 40;
   
-  sprite2.x = 50;
-  sprite2.y = 550;
-  sprite2.stroke = 'black';
-  sprite2.text = 'Hello World';
-  sprite2.textColor = 'white';
-  sprite2.textSize = 14;
+  // sprite2.x = 50;
+  // sprite2.y = 550;
+  // sprite2.stroke = 'black';
+  // sprite2.text = 'Hello World';
+  // sprite2.textColor = 'white';
+  // sprite2.textSize = 14;
+
+  // Loading 
+    rudolph = new Sprite();
+    rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
+    rudolph.anis.frameDelay = 16;
+    rudolph.addAnis({
+        idle: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
+        run: { row: 0, frames: 4 },
+    });
+
+    rudolph.width = 32;
+    rudolph.height = 32;
+    rudolph.rotationLock = true;
+    rudolph.bounciness = 0;
+    rudolph.friction = 1;
+    rudolph.x = 110;
+    rudolph.y = 550;
+    rudolph.changeAni('idle');
+
+    elf = new Sprite();
+    elf.spriteSheet = '/assets/images/sprites/elf.png';
+    elf.addAnis({
+        idle: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
+        run: { row: 0, frames: 4 },
+    });
+    elf.changeAni('idle');
+    elf.anis.frameDelay = 16;
+    elf.width = 32;
+    elf.height = 32;
+    elf.scale.x = 1;
+    elf.scale.y = 1;
+    elf.rotationLock = true;
+    elf.x = 50;
+    elf.y = 550;
 }
 
 function makeCollects(){
@@ -198,15 +246,11 @@ function collect(){
   if (sprite1.overlaps(sprite3) || sprite2.overlaps(sprite3)) {
     score += 100;
       sprite3.remove();
-    // sprite3.x = random(100, 700);
-    // sprite3.y = random(100, 300);
     }
     
     if (sprite1.overlaps(sprite4) || sprite2.overlaps(sprite4)) {
       score += 500;
       sprite4.remove();
-    // sprite4.x = random(100, 700);
-    // sprite4.y = random(100, 300);
   }
 }
 
@@ -250,7 +294,9 @@ function resetJumps(){
   }
 }
 function setup() {
-  createCanvas(800, 600);
+   displayMode('normal', 'pixelated');
+  // createCanvas(800, 600);
+   initializeSprites();
   world.gravity.y = 10;
   
   makePlayers();
@@ -284,6 +330,7 @@ function destructor(){
   gameWall2.remove(); 
   gameWall3.remove();
   platform.remove();
+  clear();
 }
 
 function gameOver(){
@@ -312,6 +359,9 @@ function passedLevel(){
     circle(400,300,1000);
     fill('black');
     text('Level Passed', width / 2, height / 2);
+      image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
     textSize(32);
     text(`Final Score: ${score}`, width / 2, height / 2 + 64);
   
