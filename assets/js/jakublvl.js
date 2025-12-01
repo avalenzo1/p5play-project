@@ -139,7 +139,7 @@ function setup() {
   
   rudolph.scale.x = 1.3;
   rudolph.scale.y = 1.3;
-  redJumps = 1;
+  redJumps = 2;
   
   elf.scale.x = 1.3;
   elf.scale.y = 1.3;
@@ -161,8 +161,8 @@ function gameOver() {
 function restartGame() {
   rudolph.pos = { x: 50, y: 560 };
   elf.pos = { x: 100, y: 560 };
-  redJumps = 1;
-  blueJumps = 1;
+  redJumps = 2;
+  blueJumps = 2;
 
   timeLeft = timeLimit;
   time = 60;
@@ -224,7 +224,7 @@ function draw() {
   || elf.colliding(platform8) || elf.colliding(platform9) || elf.colliding(movePlatform)
   || elf.colliding(wallJump1) || elf.colliding(wallJump2) || elf.colliding(movePlatform2)))
   {
-    blueJumps = 1;
+    blueJumps = 2;
   }
 
   if (kb.pressing('a')) {
@@ -248,7 +248,7 @@ function draw() {
   || rudolph.colliding(platform8) || rudolph.colliding(platform9) || rudolph.colliding(movePlatform)
   || rudolph.colliding(wallJump1) || rudolph.colliding(wallJump2) || rudolph.colliding(movePlatform2)))
   {
-    redJumps = 1;
+    redJumps = 2;
   }
 
   if(rudolph.colliding(movePlatform) || elf.colliding(movePlatform) || rudolph.colliding(movePlatform2) || elf.colliding(movePlatform2)){
