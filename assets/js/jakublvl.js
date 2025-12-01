@@ -10,47 +10,21 @@ let timeLeft = timeLimit;
 let time = 60;
 let gameActive = true;
 
-let score;
 let levelPassed = false;
-let levelPassedScreenInitialized = false;
+let levelPassedScreenInitialized = false
+
 
 function preload() {
     createCanvas(800, 600);
 
     loadSounds();
     loadIcons();
-
-    // Loading 
-    rudolph = new Sprite();
-    rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
-    rudolph.anis.frameDelay = 16;
-    rudolph.addAnis({
-        idle: { row: 0, frames: 1 },
-        jump: { row: 1, frames: 1 },
-        run: { row: 0, frames: 4 },
-    });
-
-    rudolph.width = 32;
-    rudolph.height = 32;
-    rudolph.rotationLock = true;
-    rudolph.bounciness = 0;
-    rudolph.friction = 1;
-    rudolph.x = 100;
-    rudolph.y = height - 50;
-    rudolph.changeAni('idle');
-
-    elf = new Sprite();
-    elf.width = 32;
-    elf.height = 32;
-    elf.scale.x = 1;
-    elf.scale.y = 1;
-    elf.rotationLock = true;
-    elf.x = 600;
-    elf.y = height - 20;
 }
 
 function setup() {
   createCanvas(800, 600);
+
+  
   world.gravity.y = 9.8; 
 
   let boundaryColors = color(240); 
@@ -140,20 +114,6 @@ function setup() {
   blueJumps = 1;
 }
 
-function makeGUI() {
-  fill(0);
-  textSize(24);
-  text(`Time Left: ${timeLeft}s`, 630, 30);
-
-  if (timeLeft > 0) {
-    if (time < 0) {
-      timeLeft--;
-      time = 60;
-    }
-    time--;
-  }
-}
-
 function gameOver() {
   gameActive = false;
 
@@ -181,6 +141,23 @@ function restartGame() {
   gameActive = true;
 }
 
+function makeGUI(){
+    fill(0);
+    textSize(18);
+    textAlign(LEFT, BASELINE);
+    // GUI: Timer
+    text(`Time Left: ${timeLeft}s`, 20, 30);
+
+    if(timeLeft > 0){
+      if(time < 0){
+        
+        timeLeft--;  
+        time = 60;
+      }
+      time--;
+    }
+}
+
 function draw() {
   background(220);
   
@@ -192,8 +169,6 @@ function draw() {
     }
     return;
   }
-  
-  makeGUI();
 
   if (kb.pressing('arrow_left')) sadBlue.vel.x = -5;
   else if (kb.pressing('arrow_right')) sadBlue.vel.x = 5;
@@ -262,4 +237,78 @@ function draw() {
     sadBlue.pos = { x: 100, y: 560 };
   }
 
+  if(sadRed.colliding(platform5Inner) && sadBlue.colliding(platform5Inner))
+  {
+    levelPassed = true;
+  }
+
+}
+
+function drawFrame() {
+    allSprites.draw();
+    makeGUI();
+    drawUI();
+
+}
+
+function mouseClicked() {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.href="/adrianlvl.html";
+    }
+
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.reload();
+    }
+}
+
+function drawUI() {
+    fill(0);
+    textSize(18);
+
+    if (levelPassed) {
+        if (!levelPassedScreenInitialized) {
+            score += timeLeft * 100;
+            levelPassSnd.play();
+
+            levelPassedScreenInitialized = true;
+        }
+
+        background("#0004")
+
+        textSize(32);
+        textAlign(CENTER);
+        text(`LEVEL PASSED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+
+        if (score >= 600) {
+            image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 2500) {
+            image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 4600) {
+            image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+            image(nextLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        } else {
+            image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
+    }
 }
