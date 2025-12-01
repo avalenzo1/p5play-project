@@ -93,6 +93,7 @@ function drawDialogue() {
                 }
 
                 if (!fahSnd.isPlaying()) {
+                    fahSnd.setVolume(0.05)
                     fahSnd.play();
 
                 }
