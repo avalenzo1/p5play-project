@@ -32,6 +32,9 @@ function preload() {
     loadSounds();
     loadIcons();
     // addBorders();
+
+  makePlayers();
+
 }
 
 function boxLayout(){
@@ -158,6 +161,10 @@ function level1Layout(){
 
 }
 
+function draw() {
+
+}
+
 function drawFrame(){
   // camera.x = cameraTarget.x;
   // camera.y = cameraTarget.y;
@@ -183,6 +190,7 @@ function makePlayers(){
     rudolph.friction = 1;
     rudolph.x = 110;
     rudolph.y = 550;
+
     rudolph.changeAni('idle');
     // rudolph.scale = 1.25;
 
@@ -281,12 +289,12 @@ function playerMovement(){
   if (kb.pressing('a')) {
     rudolph.vel.x = -4;
     rudolph.changeAni('run');
-    rudolph.scale.x = -1;
+    rudolph.scale.x = -1.65;
   }
   else if (kb.pressing('d')){
     rudolph.vel.x = 4;
     rudolph.changeAni('run');
-    rudolph.scale.x = 1;
+    rudolph.scale.x = 1.65;
     } 
     else {
       rudolph.vel.x = 0;
@@ -328,9 +336,10 @@ function setup() {
    displayMode('normal', 'pixelated');
   // createCanvas(800, 600);
    initializeSprites();
-  world.gravity.y = 10;
-  
-  makePlayers();
+  world.gravity.y = 10;  
+
+      rudolph.scale.x = 1.65;
+    rudolph.scale.y = 1.65;
   
   makeCollects();
   

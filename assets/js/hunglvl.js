@@ -241,8 +241,8 @@ function draw() {
   }
 
   // Remove friction when touching walls or platform sides (fall normally)
-  handleWallFall(elf);
-  handleWallFall(rudolph);
+  //handleWallFall(elf);
+  //handleWallFall(rudolph);
 
   // Water interaction (blue sprite lives, red sprite dies)
   if (elf.overlapping(water)) {
@@ -357,7 +357,7 @@ function onTopOf(a, b) {
 }
 
 // Detect if sprite is touching sides and remove friction to allow falling
-function handleWallFall(s) {
+/*function handleWallFall(s) {
   if (
     s.colliding(wall1) ||
     s.colliding(wall2) ||
@@ -369,13 +369,23 @@ function handleWallFall(s) {
   } else {
     s.friction = 0.2; // normal walking friction
   }
-}
+}*/
 
 function drawFrame() {
     allSprites.draw();
         
     drawUI();
 
+}
+
+function mouseClicked() {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && levelPassed) {
+        window.location.href="/jakublvl.html";
+    }
+
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && (levelPassed || timeLeft <= 0)) {
+        window.location.reload();
+    }
 }
 
 function drawUI() {
@@ -441,5 +451,27 @@ function drawUI() {
         } else {
             image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
         }
+    }
+
+    if (timeLeft <= 0 && !levelPassed) {
+      background("#F00");
+
+      textSize(32);
+      textAlign(CENTER);
+      text(`LEVEL FAILED!`, width / 2, height / 2 - 64);
+
+      textSize(16);
+      textAlign(CENTER);
+      text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+      image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+      image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+      image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+
+      if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+          image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+      } else {
+          image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+      }
     }
 }
