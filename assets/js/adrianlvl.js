@@ -238,6 +238,21 @@ function collect(){
   }
 }
 
+function isSpriteTouchingFloor(sprite) {
+    const floors = [
+        floor1, gameFloor1, gameFloor2, gameFloor3, 
+        gameFloor4, gameFloor5, winFloor1, platform
+    ];
+    
+    for (let floor of floors) {
+        if (floor && sprite.colliding(floor)) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 function playerJumps(){
   resetJumps();
   if(jumps < maxJumps && kb.presses('w')){
@@ -246,7 +261,7 @@ function playerJumps(){
        rudolph.vel.y = -7;
       jumps++;
       jumpSnd.play();
-    //}  w
+    //} 
   }
   
   if(jumps2 < maxJumps && kb.presses('arrow_up')){
@@ -259,26 +274,53 @@ function playerJumps(){
   }
 }
 
-function playerMovement(){
-  if (kb.pressing('a')) rudolph.vel.x = -10;
-    else if (kb.pressing('d')) rudolph.vel.x = 10;
-    else rudolph.vel.x = 0;
 
-    if (kb.pressing('arrow_left')) elf.vel.x = -5;
-    else if (kb.pressing('arrow_right')) elf.vel.x = 5;
-    else elf.vel.x = 0;
+
+function playerMovement(){
+  if (kb.pressing('a')) {
+    rudolph.vel.x = -4;
+    rudolph.changeAni('run');
+    rudolph.scale.x = -1;
+  }
+  else if (kb.pressing('d')){
+    rudolph.vel.x = 4;
+    rudolph.changeAni('run');
+    rudolph.scale.x = 1;
+    } 
+    else {
+      rudolph.vel.x = 0;
+    }
+
+    if (kb.pressing('arrow_left')) {
+      elf.changeAni('run');
+      elf.vel.x = -5;
+      elf.scale.x = -1;
+    }
+    else if (kb.pressing('arrow_right')){
+      elf.changeAni('run');
+      elf.vel.x = 5;
+      elf.scale.x = 1;
+    }
+    else{
+      // elf.changeAni('idle');
+      elf.vel.x = 0;
+    } 
 }
 
 function resetJumps(){
-  if(rudolph.colliding(floor1) || rudolph.colliding(gameFloor1) || rudolph.colliding(gameFloor2) || rudolph.colliding(gameFloor3) || rudolph.colliding(gameFloor4) || rudolph.colliding(gameFloor5)
+  if(rudolph.colliding(floor1) || rudolph.colliding(gameFloor1) || rudolph.colliding(gameFloor2) 
+    || rudolph.colliding(gameFloor3) || rudolph.colliding(gameFloor4) || rudolph.colliding(gameFloor5) || rudolph.colliding(platform)
     
     ) {
   jumps = 0;
+  rudolph.changeAni('idle');
   }
   
-  if(elf.colliding(floor1) || elf.colliding(gameFloor1) || elf.colliding(gameFloor2) || elf.colliding(gameFloor3) || elf.colliding(gameFloor4) || elf.colliding(gameFloor5)
+  if(elf.colliding(floor1) || elf.colliding(gameFloor1) || elf.colliding(gameFloor2) 
+    || elf.colliding(gameFloor3) || elf.colliding(gameFloor4) || elf.colliding(gameFloor5) || elf.colliding(platform)
     ){
   jumps2 = 0;
+  elf.changeAni('idle');
   }
 }
 function setup() {
@@ -336,6 +378,16 @@ function gameOver(){
     text(`Final Score: ${score}`, width / 2, height / 2 + 64);
 }
 
+function mouseClicked() {
+    if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.href="/anthonylvl.html";
+    }
+
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+        window.location.reload();
+    }
+}
+
 function passedLevel(){
   let timeToScore = timeLeft * 100;
   score += timeToScore;
@@ -368,6 +420,12 @@ function passedLevel(){
 
     textSize(32);
     text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+    if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
 }
 
 function makeGUI(){
@@ -404,6 +462,7 @@ function draw() {
     
     //checks for win
     if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
+      // if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
        passedLevel();
     }
 
