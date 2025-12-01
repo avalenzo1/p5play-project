@@ -32,6 +32,14 @@ function preload() {
     rudolph.changeAni('idle');
 
     elf = new Sprite();
+    elf.spriteSheet = '/assets/images/sprites/elf.png';
+    elf.addAnis({
+        idle: { row: 0, frames: 1 },
+        jump: { row: 1, frames: 1 },
+        run: { row: 0, frames: 4 },
+    });
+    elf.changeAni('idle');
+    elf.anis.frameDelay = 16;
     elf.width = 32;
     elf.height = 32;
     elf.scale.x = 1;
@@ -197,6 +205,23 @@ function draw() {
         rudolph.changeAni('idle');
     }
 
+    //elf jump
+
+    if (kb.pressing('ArrowUp')) {
+        elf.changeAni('jump');
+    } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
+        elf.changeAni('run');
+
+        if (!snowSnd.isPlaying()) {
+            snowSnd.jump(0.1);
+
+            snowSnd.play();
+        }
+    } else {
+        elf.changeAni('idle');
+    }
+
+
     if (score >= 500) {
         levelPassed = true;
     }
@@ -248,7 +273,7 @@ function drawUI() {
             levelPassedScreenInitialized = true;
         }
 
-        background("#0004")
+        background("#fff");
 
         textSize(32);
         textAlign(CENTER);
