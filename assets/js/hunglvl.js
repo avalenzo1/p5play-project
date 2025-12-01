@@ -138,6 +138,8 @@ function setup() {
 function draw() {
   background(220);
 
+levelPassed = true;
+
   if (levelPassed) {
       return;
   }
@@ -380,7 +382,7 @@ function drawFrame() {
 
 function mouseClicked() {
     if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && levelPassed) {
-        window.location.href="/jakublvl.html";
+        window.location.href="/";
     }
 
     if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && (levelPassed || timeLeft <= 0)) {
@@ -418,7 +420,7 @@ function drawUI() {
 
         textSize(32);
         textAlign(CENTER);
-        text(`LEVEL PASSED!`, width / 2, height / 2 - 64);
+        text(`That's all folks!`, width / 2, height / 2 - 64);
 
         textSize(16);
         textAlign(CENTER);
@@ -441,9 +443,9 @@ function drawUI() {
         }
 
         if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
-            image(nextLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
+            image(homeLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
         } else {
-            image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
+            image(homeLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
         }
 
         if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
