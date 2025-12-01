@@ -204,6 +204,8 @@ function draw() {
         rudolph.changeAni('idle');
     }
 
+    //elf jump
+
     if (kb.pressing('ArrowUp')) {
         elf.changeAni('jump');
     } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
