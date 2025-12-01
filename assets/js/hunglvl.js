@@ -14,10 +14,16 @@ let cannonLeft, cannonRight;
 let bullets = [];
 let fireCooldown = 0;
 
-let orb;
+let gift;
 let orbCollected = false;
 let door = null;   // door starts as NON-EXISTENT
-let gameOver = false;
+//let gameOver = false;
+let levelPassed = false;
+let levelPassedScreenInitialized = false;
+let timeLimit = 60; // seconds
+let health = 100;
+let timeLeft = timeLimit;
+let time = 60;
 
 function preload() {
   loadSounds();
@@ -44,6 +50,12 @@ function preload() {
   rudolph.changeAni('idle');
 
   elf = new Sprite();
+  elf.spriteSheet = '/assets/images/sprites/elf.png';
+  elf.addAnis({
+      idle: { row: 0, frames: 1 },
+      jump: { row: 1, frames: 1 },
+      run: { row: 0, frames: 4 },
+  });
   elf.width = 32;
   elf.height = 32;
   elf.scale.x = 1;
@@ -61,11 +73,12 @@ function setup() {
 
   //elf.friction = 0.2;
   //rudolph.friction = 0.2;
-  // elf.bounciness = 0;
-  // rudolph.bounciness = 0;
-  // elf.drag = 0.3;
-  // rudolph.drag = 0.3;
+  elf.bounciness = 0;
+  rudolph.bounciness = 0;
+  elf.drag = 0.3;
+  rudolph.drag = 0.3;
 
+  initializeSprites();
 
   // Floors
   floor0 = new Sprite(400, 600, 800, 5, STATIC); // Bottom
@@ -94,11 +107,8 @@ function setup() {
   platform.color = '#9C27B0';
 
   // Collectible orb (starts on the moving platform)
-  orb = new Sprite(platform.x, platform.y - 15, 15, 15);
-  orb.diameter = 15;  // forces circle shape
-  orb.color = '#FF9800';
-  orb.rotationLock = true;
-  orb.layer = 1;  // render above the platform
+  gift = addGift(platform.x, platform.y - 15);
+  gift.rotationLock = true;
 
   // Water pool
   water = new Sprite(400, 580, 300, 50, STATIC);
@@ -115,7 +125,7 @@ function setup() {
   rock.drag = 0.2;   // more resistance when pushing
 
   // Cannons
-  cannonLeft = new Sprite(15, 100, 30, 30, STATIC);
+  cannonLeft = new Sprite(15, 80, 30, 30, STATIC);
   cannonLeft.color = 'black';
 
   cannonRight = new Sprite(785, 200, 30, 30, STATIC);
@@ -128,8 +138,12 @@ function setup() {
 function draw() {
   background(220);
 
+  if (levelPassed) {
+      return;
+  }
+
   // GAME OVER SCREEN
-  if (gameOver) {
+  /*if (gameOver) {
     background(0);
     fill('white');
     textSize(50);
@@ -138,15 +152,15 @@ function draw() {
     textSize(20);
     text("Press R to Restart", width / 2, height / 2 + 60);
     return; // stop the game loop
-  }
+  }*/
 
   // Moving platform
   platform.vel.y = cos(frameCount * 2.2) * 4;
 
   // Orb follows the moving platform
   if (!orbCollected) {
-    orb.x = platform.x;
-    orb.y = platform.y - 15;
+    gift.x = platform.x;
+    gift.y = platform.y - 15;
   }
 
   // Shrinking floor
@@ -164,72 +178,66 @@ function draw() {
     }
   }
 
-  // Reset jumps ONLY when standing on something solid
-  if (
-    onTopOf(elf, floor0) || onTopOf(elf, floor1) ||
+
+  if (kb.pressing('a')) {
+      rudolph.vel.x = -3;
+      rudolph.scale.x = -2;
+  }
+  if (kb.pressing('d')) {
+      rudolph.vel.x = 3;
+      rudolph.scale.x = 2;
+  }
+
+  if (kb.pressing('ArrowLeft')) {
+      elf.vel.x = -3;
+      elf.scale.x = -1;
+  }
+  if (kb.pressing('ArrowRight')) {
+      elf.vel.x = 3;
+      elf.scale.x = 1;
+  }
+
+  if (onTopOf(rudolph, floor0) || onTopOf(rudolph, floor1) ||
+    onTopOf(rudolph, floor2) || onTopOf(rudolph, floor3) ||
+    onTopOf(rudolph, floor4) || onTopOf(rudolph, floor5) ||
+    onTopOf(rudolph, elf) || onTopOf(rudolph, rock) || touchingFloor(rudolph)
+  ) {
+      jumps2 = 0;
+  }
+
+  if (onTopOf(elf, floor0) || onTopOf(elf, floor1) ||
     onTopOf(elf, floor2) || onTopOf(elf, floor3) ||
     onTopOf(elf, floor4) || onTopOf(elf, floor5) ||
-    onTopOf(elf, rudolph) || onTopOf(elf, rock)
+    onTopOf(elf, rudolph) || onTopOf(elf, rock) || touchingFloor(elf)
   ) {
     jumps = 0;
   }
 
-  if (
-    onTopOf(rudolph, floor0) || onTopOf(rudolph, floor1) ||
-    onTopOf(rudolph, floor2) || onTopOf(rudolph, floor3) ||
-    onTopOf(rudolph, floor4) || onTopOf(rudolph, floor5) ||
-    onTopOf(rudolph, elf) || onTopOf(rudolph, rock)
-  ) {
-    jumps2 = 0;
-  }
-
-  // Jump logic
-  if (jumps < maxJumps && elf.vel.y >= 0 && kb.presses('w')) {
+  if (jumps < maxJumps && elf.vel.y >= 0 && kb.presses('ArrowUp')) {
     elf.vel.y = -6.5;
     jumps++;
   }
-  if (jumps2 < maxJumps && rudolph.vel.y >= 0 && kb.presses('arrow_up')) {
+  if (jumps2 < maxJumps && rudolph.vel.y >= 0 && kb.presses('w')) {
     rudolph.vel.y = -6.5;
     jumps2++;
   }
 
-  // Horizontal movement
-  elf.vel.x = 0;
-
-  if (kb.pressing('a')) {
-    elf.vel.x = -5;
-  }
-
-  if (kb.pressing('d')) {
-    elf.vel.x = 5;
-  }
-
-  rudolph.vel.x = 0;
-  if (kb.pressing('arrow_left')) {
-    rudolph.scale.x = -2;
-    rudolph.vel.x = -5;
-  }
-  if (kb.pressing('arrow_right')) {
-    rudolph.scale.x = 2;
-    rudolph.vel.x = 5;
-  }
-
   if (kb.presses('w') || kb.presses('ArrowUp')) {
-    jumpSnd.play();
+      jumpSnd.play();
   }
 
-  if (kb.pressing('ArrowUp')) {
-    rudolph.changeAni('jump');
-  } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
-    rudolph.changeAni('run');
+  if (kb.pressing('w')) {
+      rudolph.changeAni('jump');
+  } else if (kb.pressing('a') || kb.pressing('d')) {
+      rudolph.changeAni('run');
 
-    if (!snowSnd.isPlaying() && !rudolph.overlapping(water)) {
-      snowSnd.jump(0.1);
+      if (!snowSnd.isPlaying()) {
+          snowSnd.jump(0.1);
 
-      snowSnd.play();
-    }
+          snowSnd.play();
+      }
   } else {
-    rudolph.changeAni('idle');
+      rudolph.changeAni('idle');
   }
 
   // Remove friction when touching walls or platform sides (fall normally)
@@ -299,10 +307,11 @@ function draw() {
   }
 
   // Player1 collects the orb
-  if (!orbCollected && rudolph.overlapping(orb)) {
+  if (!orbCollected && elf.overlapping(gift)) {
     orbCollected = true;
-    orb.remove();  // hides the orb
-    // TODO: Add sound
+    gift.remove();  // hides the orb
+    giftSnd.play();
+    score += 100;
 
     // Spawn door
     door = new Sprite(100, 500, 30, 60, STATIC);
@@ -311,13 +320,13 @@ function draw() {
   }
 
   // Door activation: BOTH players must touch it
-  if (!gameOver && door &&
+  if (!levelPassed && door &&
     elf.overlapping(door) && rudolph.overlapping(door)) {
-    gameOver = true;
+    levelPassed = true;
   }
 
   // Restart
-  if (kb.presses('r')) {
+  /*if (kb.presses('r')) {
     gameOver = false;
 
     elf.pos = { x: 50, y: 500 };
@@ -336,14 +345,14 @@ function draw() {
     orb = new Sprite(platform.x, platform.y - 15, 15, { shape: "circle" });
     orb.color = 'cyan';
     orb.rotationLock = true;
-  }
+  }*/
 }
 
 function onTopOf(a, b) {
   return (
     a.colliding(b) &&            // must be touching
     a.vel.y >= 0 &&              // must be falling or resting
-    (a.y + a.h / 2) <= (b.y - b.h / 4) // must be above the object
+    (a.y + a.h/2) <= (b.y - b.h/4) // must be above the object
   );
 }
 
@@ -360,4 +369,77 @@ function handleWallFall(s) {
   } else {
     s.friction = 0.2; // normal walking friction
   }
+}
+
+function drawFrame() {
+    allSprites.draw();
+        
+    drawUI();
+
+}
+
+function drawUI() {
+    noStroke();
+    fill(0);
+    textSize(18);
+    text(`Score: ${score}`, 20, 60);
+
+    // GUI: Timer
+    text(`Time Left: ${timeLeft}s`, 20, 30);
+
+    if(timeLeft > 0){
+      if(time < 0){
+        
+        timeLeft--;  
+        time = 60;
+      }
+      time--;
+    }
+
+    if (levelPassed) {
+        if (!levelPassedScreenInitialized) {
+            score += timeLeft * 100;
+            levelPassSnd.play();
+
+            levelPassedScreenInitialized = true;
+        }
+
+        background("#0004")
+
+        textSize(32);
+        textAlign(CENTER);
+        text(`LEVEL PASSED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
+
+        if (score >= 600) {
+            image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 2500) {
+            image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        }
+
+        if (score >= 4600) {
+            image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32) {
+            image(nextLevelHoverImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        } else {
+            image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
+        }
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
+    }
 }
