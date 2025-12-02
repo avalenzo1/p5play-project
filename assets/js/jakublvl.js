@@ -5,9 +5,9 @@ let platform8, platform9, movePlatform, floorLava;
 let wallJump1, wallJump2;
 let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 120;
+let timeLimit = 60;
 let timeLeft = timeLimit;
-let time = 120;
+let time = 60;
 let gameActive = true;
 
 let levelPassed = false;
@@ -139,7 +139,7 @@ function setup() {
   
   rudolph.scale.x = 1.3;
   rudolph.scale.y = 1.3;
-  redJumps = 2;
+  redJumps = 1;
   
   elf.scale.x = 1.3;
   elf.scale.y = 1.3;
@@ -220,11 +220,14 @@ function draw() {
       blueJumps--;
   }
 
-  if(elf.vel.y >= 0 && (elf.colliding(platform1) || elf.colliding(floor) || elf.colliding(platform6) || elf.colliding(platform7)
+  if((elf.colliding(platform1) || elf.colliding(floor) || elf.colliding(platform6) || elf.colliding(platform7)
   || elf.colliding(platform8) || elf.colliding(platform9) || elf.colliding(movePlatform)
   || elf.colliding(wallJump1) || elf.colliding(wallJump2) || elf.colliding(movePlatform2)))
   {
-    blueJumps = 2;
+    if(elf.velocity.y <= 0)
+    {
+      blueJumps = 1;
+    }
   }
 
   if (kb.pressing('a')) {
@@ -244,11 +247,14 @@ function draw() {
       redJumps--;
   }
 
-  if(rudolph.vel.y >= 0 && (rudolph.colliding(platform1) || rudolph.colliding(floor) || rudolph.colliding(platform6) || rudolph.colliding(platform7)
+  if((rudolph.colliding(platform1) || rudolph.colliding(floor) || rudolph.colliding(platform6) || rudolph.colliding(platform7)
   || rudolph.colliding(platform8) || rudolph.colliding(platform9) || rudolph.colliding(movePlatform)
-  || rudolph.colliding(wallJump1) || rudolph.colliding(wallJump2) || rudolph.colliding(movePlatform2)))
+  || rudolph.colliding(movePlatform2)))
   {
-    redJumps = 2;
+    if(rudolph.velocity.y <= 0)
+    {
+      redJumps = 1;
+    }
   }
 
   if(rudolph.colliding(movePlatform) || elf.colliding(movePlatform) || rudolph.colliding(movePlatform2) || elf.colliding(movePlatform2)){
@@ -259,6 +265,24 @@ function draw() {
   else
   {
     platform7movable.y = 540;
+  }
+
+  if(rudolph.colliding(wallJump1) || rudolph.colliding(wallJump2))
+  {
+    redJumps = 1;
+    if(kb.pressing('a') || kb.pressing('d'))
+    {
+      rudolph.vel.y = -4;
+    }
+  }
+
+  if(elf.colliding(wallJump1) || elf.colliding(wallJump2))
+  {
+    redJumps = 1;
+    if(kb.pressing('arrow_left') || kb.pressing('arrow_right'))
+    {
+      elf.vel.y = -4;
+    }
   }
 
   if(rudolph.colliding(movePlatform2) || elf.colliding(movePlatform2)){
