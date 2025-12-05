@@ -1,5 +1,5 @@
 let elf, rudolph;
-let floor0, floor1, floor2, floor3, floor4, floor5, floor6;
+let floor0, floor1, floor2, floor3, floor4, floor5;
 let wall1, wall2;
 let platform;
 let water;
@@ -82,21 +82,19 @@ function setup() {
 
   // Floors
   floor0 = new Sprite(400, 600, 800, 5, STATIC); // Floor
-  floor6 = new Sprite(400, 0, 800, 5, STATIC); // Ceiling
+  floor5 = new Sprite(400, 0, 800, 5, STATIC); // Ceiling
   floor0.color = 'yellow';
-  floor6.color = 'yellow';
+  floor5.color = 'yellow';
 
-  floor1 = new Sprite(300, 425, 400, 5, STATIC); // Shrinking
+  floor1 = new Sprite(350, 425, 300, 5, STATIC); // Shrinking
   floor1.color = '#9C27B0';
 
-  floor2 = new Sprite(400, 175, 200, 5, STATIC); // Top
-  floor3 = new Sprite(700, 275, 300, 5, STATIC); // High
-  floor4 = new Sprite(600, 350, 400, 5, STATIC); // Low
-  floor5 = new Sprite(700, 500, 300, 5, STATIC); // Bottom
+  floor2 = new Sprite(400, 250, 200, 5, STATIC); // Top
+  floor3 = new Sprite(700, 350, 300, 5, STATIC); // Middle
+  floor4 = new Sprite(700, 500, 300, 5, STATIC); // Bottom
   floor2.color = 'white';
   floor3.color = 'white';
   floor4.color = 'white';
-  floor5.color = 'white';
 
   // Walls
   wall1 = new Sprite(0, 300, 5, 600, STATIC);
@@ -105,7 +103,7 @@ function setup() {
   wall2.color = 'yellow';
 
   // Moving platform
-  platform = new Sprite(30, 275, 60, 5, KIN);
+  platform = new Sprite(30, 250, 60, 5, KIN);
   platform.color = '#9C27B0';
 
   // Collectible orb (starts on the moving platform)
@@ -113,7 +111,7 @@ function setup() {
   gift.rotationLock = true;
 
   // Water pool
-  water = new Sprite(250, 580, 300, 50, STATIC);
+  water = new Sprite(250, 580, 250, 50, STATIC);
   water.color = 'lightblue';
   water.layer = -1;
 
@@ -157,7 +155,7 @@ function draw() {
   }*/
 
   // Moving platform
-  platform.vel.y = cos(frameCount * 2.2) * 4;
+  //platform.vel.y = cos(frameCount * 2.2) * 4;
 
   // Orb follows the moving platform
   if (!orbCollected) {
@@ -174,8 +172,8 @@ function draw() {
     }
   } else {
     floor1.w += 1;
-    if (floor1.w >= 400) {
-      floor1.w = 400;
+    if (floor1.w >= 300) {
+      floor1.w = 300;
       shrink = true;
     }
   }
@@ -333,14 +331,16 @@ function draw() {
     score += 100;
 
     // Spawn door
-    door = new Sprite(100, 500, 30, 60, STATIC);
+    door = new Sprite(700, 470, 30, 60, STATIC);
     door.color = 'brown';
-    door.layer = 1;
+    door.layer = -1;
+
+
   }
 
   // Door activation: BOTH players must touch it
   if (!levelPassed && door &&
-    elf.overlapping(door) && rudolph.overlapping(door)) {
+    ((elf.overlapping(door) && rudolph.overlapping(door)) || (rudolph.overlapping(door) && elf.overlapping(door)))) {
     levelPassed = true;
   }
 
