@@ -14,12 +14,12 @@ let winFloor1, winFloor2;
 
 // let cameraTarget;
 // let zoomedIn = false;
-// let timeLimit = 90; // seconds
-let timeLimit = 60; // seconds
+let timeLimit = 120; // seconds
+// let timeLimit = 60; // seconds
 let health = 100;
 // let score = 0;
 let timeLeft = timeLimit;
-let time = 60;
+let time = 40;
 
 let maxJumps = 1;
 let jumps = 1;
@@ -340,25 +340,25 @@ function playerMovement(){
     rudolph.vel.x = 4;
     rudolph.changeAni('run');
     rudolph.scale.x = 1.65;
-    } 
-    else {
-      rudolph.vel.x = 0;
-    }
+  } 
+  else {
+    rudolph.vel.x = 0;
+  }
 
-    if (kb.pressing('arrow_left')) {
-      elf.changeAni('run');
-      elf.vel.x = -5;
-      elf.scale.x = -1;
-    }
-    else if (kb.pressing('arrow_right')){
-      elf.changeAni('run');
-      elf.vel.x = 5;
-      elf.scale.x = 1;
-    }
-    else{
-      // elf.changeAni('idle');
-      elf.vel.x = 0;
-    } 
+  if (kb.pressing('arrow_left')) {
+    elf.changeAni('run');
+    elf.vel.x = -5;
+    elf.scale.x = -1;
+  }
+  else if (kb.pressing('arrow_right')){
+    elf.changeAni('run');
+    elf.vel.x = 5;
+    elf.scale.x = 1;
+  }
+  else{
+    // elf.changeAni('idle');
+    elf.vel.x = 0;
+  } 
 }
 
 function resetJumps(){
@@ -424,8 +424,8 @@ function destructor(){
   gameWall2.remove(); 
   gameWall3.remove();
   platform.remove();
-  clear();
-  background("#fff");
+  // clear();
+  // background("#fff");
 }
 
 function gameOver(){
@@ -440,6 +440,10 @@ function gameOver(){
   text('Game Over', width / 2, height / 2);
   textSize(32);
   text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+  // if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+  //     image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+  //   } 
 }
 
 function mouseClicked() {
@@ -455,16 +459,17 @@ function passedLevel(){
   let timeToScore = timeLeft * 100;
   score += timeToScore;
   levelPassed = true;
-  clear();
+  // clear();
   noLoop();
   levelPassSnd.play();
     textSize(64);
     textAlign(CENTER);
-    clear();
-    background("#fff");
-    fill(255);
+    background("#0004")
+    // clear();
+    // background("#fff");
+    // fill(255);
     destructor();
-    circle(400,300,1000);
+    // circle(400,300,1000);
     fill('black');
     text('Level Passed', width / 2, height / 2 - 50);
       image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
@@ -501,6 +506,7 @@ function makeGUI(){
     noStroke();
     fill(0);
     textSize(18);
+    textAlign(LEFT, BASELINE);
     text(`Score: ${score}`, 20, 60);
 
     // GUI: Timer
@@ -513,7 +519,7 @@ function makeGUI(){
       if(time < 0){
         
         timeLeft--;  
-        time = 60;//get rid of to test gameOver
+        time = 30;//get rid of to test gameOver
       }
       time--;
     }
@@ -532,8 +538,8 @@ function draw() {
    playerJumps();
     
     //checks for win
-    if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
-      // if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
+    // if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
+      if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
        passedLevel();
     }
 
