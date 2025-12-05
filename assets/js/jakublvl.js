@@ -1,17 +1,18 @@
 let floor, ceiling, wallL, wallR;
 let platform1, platform2movable, platform3Left, platform4Right, platform5Inner;
 let platform6, platform7, platform7movable;
-let platform8, platform9, movePlatform, floorLava;
+let platform8, platform9, movePlatform;
 let wallJump1, wallJump2;
 let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 60;
+let timeLimit = 20;
 let timeLeft = timeLimit;
-let time = 60;
+let time = 20;
 let gameActive = true;
 
 let levelPassed = false;
 let levelPassedScreenInitialized = false
+let continueTimer = true;
 
 
 function preload() {
@@ -49,6 +50,16 @@ function preload() {
   elf.width = 32;
   elf.height = 32;
   elf.rotationLock = true;
+
+  movePlatform2 = new Sprite(100, 130, 64, 24, STATIC);
+  movePlatform2.image = treeStompImg;
+  movePlatform2.image.scale = 3;
+  movePlatform2.image.offset = { x: 0, y: 50 };
+
+  movePlatform = new Sprite(200, 575, 64, 24, STATIC);
+  movePlatform.image = treeStompImg;
+  movePlatform.image.scale = 3;
+  movePlatform.image.offset = { x: 0, y: -10 };
 }
 
 function setup() {
@@ -75,11 +86,12 @@ function setup() {
     s.color = boundaryColors;
     s.stroke = 0;
     s.strokeWeight = 2;
+    s.color = 'green';
   }
   
   //The finall button platform
   platform1 = new Sprite(100, 150, 180, 20, STATIC);
-  platform1.color = 'white';
+  platform1.color = 'green';
   
   //Typical platform size for the finish box
   let platformX = 120;
@@ -93,57 +105,53 @@ function setup() {
   platform3Left = new Sprite(platformX - platformW/2 - 5, 330, 10, 170, STATIC);
   platform4Right = new Sprite(platformX + platformW/2 + 5, 330, 10, 170, STATIC);
   platform410Bottom = new Sprite(platformX, 410, platformW, 10, STATIC);
-  platform3Left.color = 'white';
-  platform4Right.color = 'white';
-  platform410Bottom.color = 'white';
+  platform3Left.color = 'green';
+  platform4Right.color = 'green';
+  platform410Bottom.color = 'green';
   
   //The finish platform
   platform5Inner = new Sprite(platformX, 400, platformW, 10, STATIC);
   platform5Inner.color = 'gold';
   
   platform6 = new Sprite(300, 200, 100, 20, STATIC);
-  platform6.color = 'white';
+  platform6.color = 'green';
   
   let wallCenterX = 440; //Make sure it's at the same x
   platform7 = new Sprite(wallCenterX, 340, 20, 300, STATIC);
-  platform7.color = 'white';
+  platform7.color = 'green';
 
   //First movable door
   platform7movable = new Sprite(wallCenterX, 540, 20, 100, STATIC);
   platform7movable.color = color(50);
   
   platform8 = new Sprite(660, 200, 50, 20, STATIC);
-  platform8.color = 'white';
+  platform8.color = 'green';
   
   platform9 = new Sprite(650, 500, 220, 20, STATIC);
-  platform9.color = 'white';
-  
-  movePlatform = new Sprite(200, 580, 100, 20, STATIC);
-  movePlatform.color = 'mediumpurple';
-  movePlatform.text = "STAND1";
-  movePlatform.textSize = 15;
+  platform9.color = 'green';
   
   wallJump1 = new Sprite(550, 250, 20, 200, STATIC);
   wallJump1.color = 'lime';
-  
+  wallJump1.textSize = 25;
+  wallJump1.text = "^\n^\n^\n^\n^";
+
   wallJump2 = new Sprite(750, 300, 20, 200, STATIC);
   wallJump2.color = 'lime';
-
-  floorLava = new Sprite(660, 490, 100, 10, STATIC);
-  floorLava.color = 'orange';
+  wallJump2.textSize = 25;
+  wallJump2.text = "^\n^\n^\n^\n^";
   
-  movePlatform2 = new Sprite(100, 140, 80, 20, STATIC); 
-  movePlatform2.color = 'mediumpurple';
-  movePlatform2.text = "STAND";
-  movePlatform2.textSize = 15;
-  
-  rudolph.scale.x = 1.3;
-  rudolph.scale.y = 1.3;
+  rudolph.scale.x = 1.7;
+  rudolph.scale.y = 1.7;
   redJumps = 1;
   
-  elf.scale.x = 1.3;
-  elf.scale.y = 1.3;
+  elf.scale.x = 1.2;
+  elf.scale.y = 1.2;
   blueJumps = 1;
+
+  //movePlatform.scale.x = 1.3;
+  //movePlatform.scale.y = 1.3;
+  //movePlatform2.scale.x = 1.3;
+  //movePlatform2.scale.y = 1.3;
 }
 
 function gameOver() {
@@ -179,14 +187,18 @@ function makeGUI(){
     textAlign(LEFT, BASELINE);
     // GUI: Timer
     text(`Time Left: ${timeLeft}s`, 20, 30);
+    text(`Score: ${score}`, 20, 60);
 
-    if(timeLeft > 0){
-      if(time < 0){
-        
-        timeLeft--;  
-        time = 60;
+    if(continueTimer)
+    {
+      if(timeLeft > 0){
+        if(time < 0){
+          
+          timeLeft--;  
+          time = 60;
+        }
+        time--;
       }
-      time--;
     }
 }
 
@@ -194,14 +206,6 @@ function draw() {
   background(220);
   
   checkForGift();
-  if (timeLeft === 0 || !gameActive) {
-    gameOver();
-    
-    if (kb.presses('r')) {
-      restartGame();
-    }
-    return;
-  }
 
   if (kb.pressing('arrow_left')) {
   elf.vel.x = -5;
@@ -300,16 +304,6 @@ function draw() {
     platform2movable.x = 330;
   }
 
-  if(rudolph.colliding(floorLava))
-  {
-    rudolph.pos = { x: 50, y: 560 };
-  }
-
-  if(elf.colliding(floorLava))
-  {
-    elf.pos = { x: 100, y: 560 };
-  }
-
   if(rudolph.colliding(platform5Inner) && elf.colliding(platform5Inner))
   {
     levelPassed = true;
@@ -372,6 +366,7 @@ function drawUI() {
     textSize(18);
 
     if (levelPassed) {
+        continueTimer = false;
         if (!levelPassedScreenInitialized) {
             score += timeLeft * 100;
             levelPassSnd.play();
@@ -393,15 +388,15 @@ function drawUI() {
         image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
         image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
 
-        if (score >= 600) {
+        if (score >= 1200) {
             image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
         }
 
-        if (score >= 2500) {
+        if (score >= 5000) {
             image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
         }
 
-        if (score >= 4600) {
+        if (score >= 9200) {
             image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
         }
 
@@ -410,6 +405,28 @@ function drawUI() {
         } else {
             image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
         }
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
+    }
+
+    if (timeLeft <= 0 && !levelPassed) {
+        background("#F00");
+
+        textSize(32);
+        textAlign(CENTER);
+        text(`LEVEL FAILED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
 
         if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
             image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);

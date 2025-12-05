@@ -5,7 +5,7 @@ let score = 0;
 let timer = 60;
 let kaFont;
 let jumpSnd, snowSnd, giftSnd, levelPassSnd;
-let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg, homeLevelImg, homeLevelHoverImg;
+let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg, homeLevelImg, homeLevelHoverImg, treeStompImg;
 
 function addFloor(x, y, w, h) {
     let newFloor = new floors.Sprite(x, y, w, h,STATIC);
@@ -87,6 +87,7 @@ function loadIcons() {
 
     homeLevelImg = loadImage('/assets/images/sprites/homeLevel.png');
     homeLevelHoverImg =  loadImage('/assets/images/sprites/homeLevelHover.png');
+    treeStompImg = loadImage('/assets/images/sprites/treeStomp.png');
 }
 
 function loadSounds() {
