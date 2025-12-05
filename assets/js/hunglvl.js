@@ -183,18 +183,22 @@ function draw() {
       rudolph.vel.x = -3;
       rudolph.scale.x = -2;
   }
-  if (kb.pressing('d')) {
+  else if (kb.pressing('d')) {
       rudolph.vel.x = 3;
       rudolph.scale.x = 2;
+  } else{
+    rudolph.vel.x = 0;
   }
 
   if (kb.pressing('ArrowLeft')) {
       elf.vel.x = -3;
       elf.scale.x = -1;
   }
-  if (kb.pressing('ArrowRight')) {
+  else if (kb.pressing('ArrowRight')) {
       elf.vel.x = 3;
       elf.scale.x = 1;
+  } else{
+      elf.vel.x = 0;
   }
 
   if (onTopOf(rudolph, floor0) || onTopOf(rudolph, floor1) ||
