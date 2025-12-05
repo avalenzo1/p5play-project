@@ -9,10 +9,13 @@ function setup() {
     initializeSprites();
 }
 
+let giftAmount = 2 + 5 + 2 + 1;
 let santaSleigh;
 let bellSnd;
 let fortniteSnd;
 let fahSnd;
+let ringSnd;
+let oohSnd;
 let explosionSnd;
 let explosionGif;
 let playExplosion = false, playedExplosion = false; // present and future tense
@@ -21,8 +24,10 @@ const dialogue = [
     "Press the [Enter] key to continue.",
     "Santa was slaying the day before Christmas",
     "but Santa is dumb -- he forgot to put gasoline on the sleigh]...",
-    "idk",
-    "Santa's elf and and Rudolph must now save Christmas!"
+    "...",
+    "(Phone ringing)",
+    "Hey... it's santa...",
+    "Can you go find the presents with rudolph?",
 ];
 
 let currentLine = 0;
@@ -33,15 +38,18 @@ function mouseClicked() {
 }
 
 function preload() {
-explosionSnd = loadSound('/assets/sounds/explosion.mp3');
-explosionGif = loadImage('/assets/images/sprites/explosion.gif');
-fortniteSnd = loadSound('/assets/sounds/death.mp3');
-bellSnd = loadSound('/assets/sounds/bell.mp3');
-fahSnd = loadSound('/assets/sounds/fahhhhhhhhhhhhhh.mp3');
+    explosionSnd = loadSound('/assets/sounds/explosion.mp3');
+    explosionGif = loadImage('/assets/images/sprites/explosion.gif');
+    fortniteSnd = loadSound('/assets/sounds/death.mp3');
+    bellSnd = loadSound('/assets/sounds/bell.mp3');
+    fahSnd = loadSound('/assets/sounds/fahhhhhhhhhhhhhh.mp3');
+    oohSnd = loadSound('/assets/sounds/ooh.mp3');
+    ringSnd = loadSound('/assets/sounds/ring.mp3');
 }
 
 let cloudX = 0;
 let cloudY = 0;
+
 
 function draw() {
     background(235);
@@ -51,7 +59,7 @@ function draw() {
     ellipse(500 + cloudX, 300 + cloudY, 300, 100);
 
     if (currentLine < 3)
-    santaSleigh.vel.y = cos(frameCount * 2.2) * 2;
+        santaSleigh.vel.y = cos(frameCount * 2.2) * 2;
 
     if (currentLine == 2) {
         santaSleigh.x += random(-2, 2);
@@ -68,6 +76,19 @@ function draw() {
     if (playedExplosion) {
         image(explosionGif, width - 600, height / 2, 400, 400);
         explosionGif.play();
+    }
+}
+
+function giftExplosion() {
+    for (let i = 0; i < giftAmount; ++i) {
+        let gift = addGift(width / 2, height - 20);
+
+        console.log(gift)
+
+        gift.velocity.x = random(-6, 6);
+        gift.velocity.y = -random(5, 12);
+        gift.rotationSpeed = random(-5,5);
+        // gift.velocity.y = 0;
     }
 }
 
@@ -114,8 +135,12 @@ function drawDialogue() {
                         explosionSnd.play();
                         playedExplosion = true;
 
+                        oohSnd.play();
+
+                        giftExplosion();
+
                         setTimeout(() => {
-fortniteSnd.play();
+                            fortniteSnd.play();
                         }, 200);
                     }, 1000);
 
@@ -123,6 +148,14 @@ fortniteSnd.play();
                 }
             }
 
+            if (currentLine == 4) {
+                ringSnd.play();
+            }
+
+            if (currentLine == 5) {
+                ringSnd.pause();
+            }
+            
             currentChar = 0;
         } else {
             window.location.href = "/adrianlvl.html";
