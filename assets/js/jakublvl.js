@@ -91,7 +91,7 @@ function setup() {
   
   //The finall button platform
   platform1 = new Sprite(100, 150, 180, 20, STATIC);
-  platform1.color = 'green';
+  platform1.color = 'red';
   
   //Typical platform size for the finish box
   let platformX = 120;
@@ -107,14 +107,14 @@ function setup() {
   platform410Bottom = new Sprite(platformX, 410, platformW, 10, STATIC);
   platform3Left.color = 'green';
   platform4Right.color = 'green';
-  platform410Bottom.color = 'green';
+  platform410Bottom.color = 'red';
   
   //The finish platform
   platform5Inner = new Sprite(platformX, 400, platformW, 10, STATIC);
   platform5Inner.color = 'gold';
   
   platform6 = new Sprite(300, 200, 100, 20, STATIC);
-  platform6.color = 'green';
+  platform6.color = 'red';
   
   let wallCenterX = 440; //Make sure it's at the same x
   platform7 = new Sprite(wallCenterX, 340, 20, 300, STATIC);
@@ -125,10 +125,10 @@ function setup() {
   platform7movable.color = color(50);
   
   platform8 = new Sprite(660, 200, 50, 20, STATIC);
-  platform8.color = 'green';
+  platform8.color = 'red';
   
   platform9 = new Sprite(650, 500, 220, 20, STATIC);
-  platform9.color = 'green';
+  platform9.color = 'red';
   
   wallJump1 = new Sprite(550, 250, 20, 200, STATIC);
   wallJump1.color = 'lime';
@@ -152,18 +152,6 @@ function setup() {
   //movePlatform.scale.y = 1.3;
   //movePlatform2.scale.x = 1.3;
   //movePlatform2.scale.y = 1.3;
-}
-
-function gameOver() {
-  gameActive = false;
-
-  background(200, 0, 0);
-  textSize(72);
-  textAlign(CENTER,CENTER);
-  fill(255);
-  text('TIME UP!', width / 2, height / 2);
-  textSize(32);
-  text('Press R to restart.', width / 2, height / 2 + 80);
 }
 
 function restartGame() {
@@ -342,6 +330,11 @@ function draw() {
   if (kb.presses('w') || kb.presses('ArrowUp')) {
       jumpSnd.play();
   }
+
+  textSize(16);
+  
+  textAlign(RIGHT, BASELINE);
+  text(`Hold A or B or the \naccording arrow \nkeys to clime the walls.`, 770, 30);
 }
 
 function drawFrame() {
