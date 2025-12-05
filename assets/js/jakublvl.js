@@ -5,9 +5,9 @@ let platform8, platform9, movePlatform;
 let wallJump1, wallJump2;
 let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 20;
+let timeLimit = 120;
 let timeLeft = timeLimit;
-let time = 20;
+let time = 120;
 let gameActive = true;
 
 let levelPassed = false;
