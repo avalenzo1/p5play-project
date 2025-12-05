@@ -235,7 +235,7 @@ function draw() {
   } else if (kb.pressing('a') || kb.pressing('d')) {
       rudolph.changeAni('run');
 
-      if (!snowSnd.isPlaying()) {
+      if (!snowSnd.isPlaying() && !rudolph.overlapping(water)) {
           snowSnd.jump(0.1);
 
           snowSnd.play();
@@ -272,10 +272,8 @@ function draw() {
   if (rudolph.overlapping(water)) {
     rudolph.vel.y *= 0;
     rudolph.vel.x *= 0;
-    rudolph.color = 'black';
     rudolph.changeAni('frozen');
-  } else rudolph.color = 'red';
-
+  } 
   // Rock sinking behavior
   if (rock.overlapping(water)) {
     rock.vel.x *= 0.5;
@@ -415,12 +413,13 @@ function drawUI() {
     noStroke();
     fill(0);
     textSize(18);
+    textAlign(LEFT, BASELINE);
     text(`Score: ${score}`, 20, 60);
 
     // GUI: Timer
     text(`Time Left: ${timeLeft}s`, 20, 30);
 
-    if(timeLeft > 0){
+    if(timeLeft > 0 && !levelPassed){
       if(time < 0){
         
         timeLeft--;  
