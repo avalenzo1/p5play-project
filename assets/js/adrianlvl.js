@@ -379,7 +379,7 @@ function resetJumps(){
   }
 }
 function setup() {
-   displayMode('normal', 'pixelated');
+  displayMode('normal', 'pixelated');
   // createCanvas(800, 600);
    initializeSprites();
   world.gravity.y = 10;  
@@ -538,8 +538,8 @@ function draw() {
    playerJumps();
     
     //checks for win
-    // if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
-      if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
+    if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
+      // if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
        passedLevel();
     }
 
