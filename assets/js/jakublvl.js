@@ -5,9 +5,9 @@ let platform8, platform9, movePlatform;
 let wallJump1, wallJump2;
 let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 120;
+let timeLimit = 20;
 let timeLeft = timeLimit;
-let time = 120;
+let time = 20;
 let gameActive = true;
 
 let levelPassed = false;
@@ -140,12 +140,12 @@ function setup() {
   wallJump2.textSize = 25;
   wallJump2.text = "^\n^\n^\n^\n^";
   
-  rudolph.scale.x = 1.3;
-  rudolph.scale.y = 1.3;
+  rudolph.scale.x = 1.7;
+  rudolph.scale.y = 1.7;
   redJumps = 1;
   
-  elf.scale.x = 1.3;
-  elf.scale.y = 1.3;
+  elf.scale.x = 1.2;
+  elf.scale.y = 1.2;
   blueJumps = 1;
 
   //movePlatform.scale.x = 1.3;
@@ -206,14 +206,6 @@ function draw() {
   background(220);
   
   checkForGift();
-  if (timeLeft === 0 || !gameActive) {
-    gameOver();
-    
-    if (kb.presses('r')) {
-      restartGame();
-    }
-    return;
-  }
 
   if (kb.pressing('arrow_left')) {
   elf.vel.x = -5;
@@ -413,6 +405,28 @@ function drawUI() {
         } else {
             image(nextLevelImg, width / 2 - 84, height / 2 + 100, 64, 64);
         }
+
+        if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
+            image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        } else {
+            image(replayLevelImg, width / 2 + 16, height / 2 + 100, 64, 64);
+        }
+    }
+
+    if (timeLeft <= 0 && !levelPassed) {
+        background("#F00");
+
+        textSize(32);
+        textAlign(CENTER);
+        text(`LEVEL FAILED!`, width / 2, height / 2 - 64);
+
+        textSize(16);
+        textAlign(CENTER);
+        text(`Final Score: ${score}`, width / 2, height / 2 + 64);
+
+        image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
+        image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
 
         if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32) {
             image(replayLevelHoverImg, width / 2 + 16, height / 2 + 100, 64, 64);
