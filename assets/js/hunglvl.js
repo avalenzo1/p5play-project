@@ -334,6 +334,7 @@ function draw() {
 
     // Spawn door
     door = new Sprite(700, 470, 30, 60, STATIC);
+    door.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
     door.color = 'brown';
     door.layer = -1;
 
