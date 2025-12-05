@@ -1,11 +1,11 @@
 let elf, rudolph;
-let floor0, floor1, floor2, floor3, floor4, floor5;
+let floor0, floor1, floor2, floor3, floor4, floor5, floor6;
 let wall1, wall2;
 let platform;
 let water;
 let rock;
 
-let maxJumps = 1;
+let maxJumps = 2;
 let jumps = 0;
 let jumps2 = 0;
 let shrink = true;
@@ -46,7 +46,7 @@ function preload() {
   rudolph.bounciness = 0;
   rudolph.friction = 1;
   rudolph.x = 50;
-  rudolph.y = 500;
+  rudolph.y = 600;
   rudolph.changeAni('idle');
 
   elf = new Sprite();
@@ -62,7 +62,7 @@ function preload() {
   elf.scale.y = 1;
   elf.rotationLock = true;
   elf.x = 750;
-  elf.y = 500;
+  elf.y = 600;
 }
 
 function setup() {
@@ -81,20 +81,22 @@ function setup() {
   initializeSprites();
 
   // Floors
-  floor0 = new Sprite(400, 600, 800, 5, STATIC); // Bottom
-  floor3 = new Sprite(400, 0, 800, 5, STATIC); // Top
+  floor0 = new Sprite(400, 600, 800, 5, STATIC); // Floor
+  floor6 = new Sprite(400, 0, 800, 5, STATIC); // Ceiling
   floor0.color = 'yellow';
-  floor3.color = 'yellow';
+  floor6.color = 'yellow';
 
-  floor1 = new Sprite(400, 475, 400, 5, STATIC); // Shrinking
+  floor1 = new Sprite(300, 425, 400, 5, STATIC); // Shrinking
   floor1.color = '#9C27B0';
 
-  floor2 = new Sprite(400, 150, 200, 5, STATIC); // High
-  floor4 = new Sprite(600, 375, 400, 5, STATIC); // Low
-  floor5 = new Sprite(700, 275, 300, 5, STATIC); // Middle
-  floor2.color = '#4CAF50';
-  floor4.color = '#4CAF50';
-  floor5.color = '#4CAF50';
+  floor2 = new Sprite(400, 175, 200, 5, STATIC); // Top
+  floor3 = new Sprite(700, 275, 300, 5, STATIC); // High
+  floor4 = new Sprite(600, 350, 400, 5, STATIC); // Low
+  floor5 = new Sprite(700, 500, 300, 5, STATIC); // Bottom
+  floor2.color = 'white';
+  floor3.color = 'white';
+  floor4.color = 'white';
+  floor5.color = 'white';
 
   // Walls
   wall1 = new Sprite(0, 300, 5, 600, STATIC);
@@ -111,7 +113,7 @@ function setup() {
   gift.rotationLock = true;
 
   // Water pool
-  water = new Sprite(400, 580, 300, 50, STATIC);
+  water = new Sprite(250, 580, 300, 50, STATIC);
   water.color = 'lightblue';
   water.layer = -1;
 
@@ -125,7 +127,7 @@ function setup() {
   rock.drag = 0.2;   // more resistance when pushing
 
   // Cannons
-  cannonLeft = new Sprite(15, 80, 30, 30, STATIC);
+  cannonLeft = new Sprite(15, 125, 30, 30, STATIC);
   cannonLeft.color = 'black';
 
   cannonRight = new Sprite(785, 200, 30, 30, STATIC);
@@ -166,8 +168,8 @@ function draw() {
   // Shrinking floor
   if (shrink) {
     floor1.w -= 1;
-    if (floor1.w <= 1) {
-      floor1.w = 1;
+    if (floor1.w <= 100) {
+      floor1.w = 100;
       shrink = false;
     }
   } else {
@@ -214,11 +216,11 @@ function draw() {
   }
 
   if (jumps < maxJumps && elf.vel.y >= 0 && kb.presses('ArrowUp')) {
-    elf.vel.y = -6.5;
+    elf.vel.y = -4;
     jumps++;
   }
   if (jumps2 < maxJumps && rudolph.vel.y >= 0 && kb.presses('w')) {
-    rudolph.vel.y = -6.5;
+    rudolph.vel.y = -4;
     jumps2++;
   }
 
@@ -313,7 +315,10 @@ function draw() {
 
     // Bullet kills players
     if (b.colliding(rudolph)) {
-      rudolph.pos = { x: 50, y: 500 };
+      b.remove();
+      bullets.splice(i, 1);
+      continue;
+      //rudolph.pos = { x: 50, y: 500 };
     }
     if (b.colliding(elf)) {
       elf.pos = { x: 750, y: 500 };
