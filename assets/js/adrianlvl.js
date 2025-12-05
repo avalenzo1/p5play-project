@@ -4,8 +4,9 @@ let floor1, roof1;
 let wall, wall2;
 
 let gameWall1,gameWall2 , gameWall3; 
-let gameFloor1,gameFloor2, gameFloor3, gameFloor4, gameFloor5,
-    gameFloor6;
+let gameFloor1,gameFloor2, gameFloor3, gameFloor4, gameFloor5;
+
+let gameFloor1bot, gameFloor2bot, gameFloor3bot, gameFloor4bot, gameFloor5bot;
 
 let platform;
 
@@ -21,8 +22,8 @@ let timeLeft = timeLimit;
 let time = 60;
 
 let maxJumps = 1;
-let jumps = 0;
-let jumps2 = 0;
+let jumps = 1;
+let jumps2 = 1;
 
 let rudolph, elf;
 let levelPassed = false
@@ -102,74 +103,120 @@ function level1Layout(){
     gameWall3.x = 700;
     gameWall3.friction = 0;
   
-  // gameFloor1,gameFloor2, gameFloor3;
-  
   gameFloor1 = new Sprite();
   gameFloor1.color = 'darkgreen';
   gameFloor1.static = true;
   gameFloor1.w = 340;
   gameFloor1.h = 7.5;
-  gameFloor1.y = 500;
+  gameFloor1.y = 500 - 3.75;
   gameFloor1.x = 170;
   gameFloor1.friction = 0;
+
+    gameFloor1bot, gameFloor2bot, gameFloor3bot, gameFloor4bot, gameFloor5bot;
+  gameFloor1bot = new Sprite();
+  gameFloor1bot.color = 'darkgreen';
+  gameFloor1bot.static = true;
+  gameFloor1bot.w = 340;
+  gameFloor1bot.h = 3.75;
+  gameFloor1bot.y = 500;
+  gameFloor1bot.x = 170;
+  gameFloor1bot.friction = 0;
   
   gameFloor2 = new Sprite();
   gameFloor2.color = 'darkgreen';
   gameFloor2.static = true;
   gameFloor2.w = 340;
   gameFloor2.h = 7.5;
-  gameFloor2.y = 400;
+  gameFloor2.y = 400 - 3.75;
   gameFloor2.x = 230.5;//add.5 for the wall is 7.5
   gameFloor2.friction = 0;
+
+  gameFloor2bot = new Sprite();
+  gameFloor2bot.color = 'darkgreen';
+  gameFloor2bot.static = true;
+  gameFloor2bot.w = 340;
+  gameFloor2bot.h = 3.75;
+  gameFloor2bot.y = 400;
+  gameFloor2bot.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor2bot.friction = 0;
   
   gameFloor3 = new Sprite();
   gameFloor3.color = 'darkgreen';
   gameFloor3.static = true;
   gameFloor3.w = 340;
   gameFloor3.h = 7.5;
-  gameFloor3.y = 300;
+  gameFloor3.y = 300 - 3.75;
   gameFloor3.x = 170;
   gameFloor3.friction = 0;
+
+  gameFloor3bot = new Sprite();
+  gameFloor3bot.color = 'darkgreen';
+  gameFloor3bot.static = true;
+  gameFloor3bot.w = 340;
+  gameFloor3bot.h = 3.75;
+  gameFloor3bot.y = 300;
+  gameFloor3bot.x = 170;
+  gameFloor3bot.friction = 0;
   
   gameFloor4 = new Sprite();
   gameFloor4.color = 'darkgreen';
   gameFloor4.static = true;
   gameFloor4.w = 340;
   gameFloor4.h = 7.5;
-  gameFloor4.y = 200;
+  gameFloor4.y = 200 - 3.75;
   gameFloor4.x = 230.5;//add.5 for the wall is 7.5
   gameFloor4.friction = 0;
+
+  gameFloor4bot = new Sprite();
+  gameFloor4bot.color = 'darkgreen';
+  gameFloor4bot.static = true;
+  gameFloor4bot.w = 340;
+  gameFloor4bot.h = 3.75;
+  gameFloor4bot.y = 200;
+  gameFloor4bot.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor4bot.friction = 0;
   
   gameFloor5 = new Sprite();
   gameFloor5.color = 'darkgreen';
   gameFloor5.static = true;
   gameFloor5.w = 340;
   gameFloor5.h = 7.5;
-  gameFloor5.y = 100;
+  gameFloor5.y = 100 - 3.75;
   gameFloor5.x = 170;
   gameFloor5.friction = 0;
+
+  gameFloor5bot = new Sprite();
+  gameFloor5bot.color = 'darkgreen';
+  gameFloor5bot.static = true;
+  gameFloor5bot.w = 340;
+  gameFloor5bot.h = 3.75;
+  gameFloor5bot.y = 100;
+  gameFloor5bot.x = 170;
+  gameFloor5bot.friction = 0;
   
   winFloor1 = new Sprite();
   winFloor1.static = true;
-  winFloor1.color = 'darkgreen';
+  winFloor1.color = 'gold';
   winFloor1.x = 715.5;
-  winFloor1.y = 90;
-  winFloor1.h = 7.5;
+  winFloor1.y = 90-3.75;
+  winFloor1.h = 3.75;
   winFloor1.w = 160;
   winFloor1.friction = 0;
+
+  winFloor2 = new Sprite();
+  winFloor2.static = true;
+  winFloor2.color = 'gold';
+  winFloor2.x = 715.5;
+  winFloor2.y = 90;
+  winFloor2.h = 3.75;
+  winFloor2.w = 160;
+  winFloor2.friction = 0;
   
   platform = new Sprite(550, 350, 60, 5, KIN);
-
+  platform.color = 'brown';
 }
 
-// function draw() {
-// }
-
 function drawFrame(){
-  // camera.x = cameraTarget.x;
-  // camera.y = cameraTarget.y;
-  // camera.zoom = zoomedIn ? 0.95: 0.5; 
-  // camera.y -= 200;
   allSprites.draw();
 }
 
@@ -263,24 +310,24 @@ function isSpriteTouchingFloor(sprite) {
 }
 
 function playerJumps(){
-  resetJumps();
   if(jumps < maxJumps && kb.presses('w')){
-    //if(kb.presses('w')){
-      rudolph.changeAni('jump');
-       rudolph.vel.y = -7;
-      jumps++;
-      jumpSnd.play();
-    //} 
+  //if(kb.presses('w')){
+  rudolph.changeAni('jump');
+  rudolph.vel.y = -5;
+  jumps++;
+  jumpSnd.play();
+  //} 
   }
-  
+    
   if(jumps2 < maxJumps && kb.presses('arrow_up')){
-    //if(kb.presses('up')){
-       elf.vel.y = -7;
-       elf.changeAni('jump');
-      jumps2++;
-      jumpSnd.play();
-   // }  
+  //if(kb.presses('up')){
+    elf.vel.y = -5;
+    elf.changeAni('jump');
+    jumps2++;
+    jumpSnd.play();
+    // }  
   }
+  resetJumps();
 }
 
 function playerMovement(){
@@ -315,19 +362,20 @@ function playerMovement(){
 }
 
 function resetJumps(){
-  if(rudolph.colliding(floor1) || rudolph.colliding(gameFloor1) || rudolph.colliding(gameFloor2) 
-    || rudolph.colliding(gameFloor3) || rudolph.colliding(gameFloor4) || rudolph.colliding(gameFloor5) || rudolph.colliding(platform)
-    
-    ) {
+  // if(rudolph.colliding(floor1) || rudolph.colliding(gameFloor1) || rudolph.colliding(gameFloor2) 
+  //   || rudolph.colliding(gameFloor3) || rudolph.colliding(gameFloor4) || rudolph.colliding(gameFloor5) || rudolph.colliding(platform)
+  //   ) {
+  if(isSpriteTouchingFloor(rudolph)){
   jumps = 0;
   rudolph.changeAni('idle');
   }
   
-  if(elf.colliding(floor1) || elf.colliding(gameFloor1) || elf.colliding(gameFloor2) 
-    || elf.colliding(gameFloor3) || elf.colliding(gameFloor4) || elf.colliding(gameFloor5) || elf.colliding(platform)
-    ){
-  jumps2 = 0;
-  elf.changeAni('idle');
+  // if(elf.collide(floor1) || elf.collide(gameFloor1) || elf.collide(gameFloor2) 
+  //   || elf.collide(gameFloor3) || elf.collide(gameFloor4) || elf.collide(gameFloor5) || elf.collide(platform)
+  //   ){
+  if(isSpriteTouchingFloor(elf)){
+    jumps2 = 0;
+    elf.changeAni('idle');
   }
 }
 function setup() {
@@ -336,8 +384,8 @@ function setup() {
    initializeSprites();
   world.gravity.y = 10;  
 
-      rudolph.scale.x = 1.65;
-    rudolph.scale.y = 1.65;
+  rudolph.scale.x = 1.65;
+  rudolph.scale.y = 1.65;
   
   makeCollects();
   
@@ -363,7 +411,15 @@ function destructor(){
   gameFloor3.remove();
   gameFloor4.remove(); 
   gameFloor5.remove();
+
+  gameFloor1bot.remove();
+  gameFloor2bot.remove();
+  gameFloor3bot.remove();
+  gameFloor4bot.remove(); 
+  gameFloor5bot.remove();
+
   winFloor1.remove();
+  winFloor2.remove();
   gameWall1.remove();
   gameWall2.remove(); 
   gameWall3.remove();
