@@ -558,6 +558,7 @@ function draw() {
       elf.pos = { x: 105, y: 550 };
       time = 60;
       timeLeft = timeLimit;
+      score = 0;
     }
   }//end of game timer
 }

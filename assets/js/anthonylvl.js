@@ -1,10 +1,14 @@
 let levelPassed = false, platform1Return = false, platform2Return =false, platform1, platform2, trap, pad1, pad2, rudolph, elf, latch, gift;
-let timeLimit = 60; // seconds
+let timeLimit = 120; // seconds
 let health = 100;
 let timeLeft = timeLimit;
-let time = 60;
+let time = 40;
 
 let levelPassedScreenInitialized = false;
+
+let maxJumps = 1;
+let jumps = 1;
+let jumps2 = 1;
 
 function preload() {
     createCanvas(800, 600);
@@ -106,6 +110,54 @@ function setup() {
     addGift(100, 400);
 }
 
+function Movement(){
+    if (kb.pressing('a')) {
+        rudolph.vel.x = -3;
+        rudolph.scale.x = -2;
+    }
+    if (kb.pressing('d')){
+        rudolph.vel.x = 3;
+        rudolph.scale.x = 2;
+    }
+
+    if (kb.pressing('ArrowLeft')) {
+        elf.vel.x = -3;
+        elf.scale.x = -1;
+    }
+    if (kb.pressing('ArrowRight')) {
+        elf.vel.x = 3;
+        elf.scale.x = 1;
+    }
+}
+
+function resetJumps() {
+    if (touchingFloor(rudolph)) {
+        jumps = maxJumps;
+    }
+
+    if (touchingFloor(elf)) {
+        jumps2 = maxJumps;
+    }
+}
+
+function playerJumps() {
+    // if (kb.presses('w') || kb.presses('ArrowUp')) {
+    //     jumpSnd.play();
+    // }
+
+    if (kb.presses('w') && jumps > 0) {
+        rudolph.vel.y = -4;
+        jumpSnd.play();
+        jumps--;
+    }
+
+    if (kb.presses('ArrowUp') && jumps2 > 0) {
+        elf.vel.y = -4;
+        jumpSnd.play();
+        jumps2--;
+    }
+}
+
 function draw() {
     background(200);
 
@@ -164,35 +216,19 @@ function draw() {
         trap.physics = KINEMATIC;
     }
 
-    if (kb.pressing('a')) {
-        rudolph.vel.x = -3;
-        rudolph.scale.x = -2;
-    }
-    if (kb.pressing('d')) {
-        rudolph.vel.x = 3;
-        rudolph.scale.x = 2;
-    }
+    Movement();
 
-    if (kb.pressing('w') && touchingFloor(rudolph)) {
-        rudolph.vel.y = -4;
-    }
+    resetJumps();
 
-    if (kb.pressing('ArrowLeft')) {
-        elf.vel.x = -3;
-        elf.scale.x = -1;
-    }
-    if (kb.pressing('ArrowRight')) {
-        elf.vel.x = 3;
-        elf.scale.x = 1;
-    }
+    playerJumps();
 
-    if (kb.pressing('ArrowUp') && touchingFloor(elf)) {
-        elf.vel.y = -4;
-    }
+    // if (kb.pressing('w') && touchingFloor(rudolph)) {
+    //     rudolph.vel.y = -4;
+    // }
 
-    if (kb.presses('w') || kb.presses('ArrowUp')) {
-        jumpSnd.play();
-    }
+    // if (kb.pressing('ArrowUp') && touchingFloor(elf)) {
+    //     elf.vel.y = -4;
+    // }
 
     if (kb.pressing('w')) {
         rudolph.changeAni('jump');
@@ -209,7 +245,6 @@ function draw() {
     }
 
     //elf jump
-
     if (kb.pressing('ArrowUp')) {
         elf.changeAni('jump');
     } else if (kb.pressing('ArrowLeft') || kb.pressing('ArrowRight')) {
@@ -230,14 +265,21 @@ function draw() {
     }
 
     checkForGift();
+
+    if(kb.presses('r')){
+      //restart game;
+      rudolph.pos = { x: 100, y: height - 50 };
+      elf.pos = { x: 600, y: height - 50 };
+      time = 40;
+      timeLeft = timeLimit;
+      score = 0;
+    }
 }
 
 
 function drawFrame() {
     allSprites.draw();
-        
     drawUI();
-
 }
 
 function mouseClicked() {
@@ -263,7 +305,7 @@ function drawUI() {
       if(time < 0){
         
         timeLeft--;  
-        time = 60;
+        time = 40;
       }
       time--;
     }
