@@ -5,9 +5,9 @@ let platform8, platform9, movePlatform;
 let wallJump1, wallJump2;
 let movePlatform2, rudolph, elf, redJumps, blueJumps;
 
-let timeLimit = 60;
+let timeLimit = 120;
 let timeLeft = timeLimit;
-let time = 60;
+let time = 120;
 let gameActive = true;
 
 let levelPassed = false;
@@ -86,6 +86,7 @@ function setup() {
     s.color = boundaryColors;
     s.stroke = 0;
     s.strokeWeight = 2;
+    s.color = 'green';
   }
   
   //The finall button platform
@@ -186,6 +187,7 @@ function makeGUI(){
     textAlign(LEFT, BASELINE);
     // GUI: Timer
     text(`Time Left: ${timeLeft}s`, 20, 30);
+    text(`Score: ${score}`, 20, 60);
 
     if(continueTimer)
     {
@@ -394,15 +396,15 @@ function drawUI() {
         image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
         image(voidStarImg, width / 2 + 64, height / 2 - 32, 64, 64);
 
-        if (score >= 600) {
+        if (score >= 1200) {
             image(starImg, width / 2 - 128, height / 2 - 32, 64, 64);
         }
 
-        if (score >= 2500) {
+        if (score >= 5000) {
             image(starImg, width / 2 - 32, height / 2 - 32, 64, 64);
         }
 
-        if (score >= 4600) {
+        if (score >= 9200) {
             image(starImg, width / 2 + 64, height / 2 - 32, 64, 64);
         }
 
