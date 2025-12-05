@@ -273,6 +273,11 @@ function draw() {
     rudolph.vel.y *= 0;
     rudolph.vel.x *= 0;
     rudolph.changeAni('frozen');
+    if (!freezeSnd.isPlaying()) {
+    freezeSnd.jump(0.1);
+
+    freezeSnd.play();
+    }
   } 
   // Rock sinking behavior
   if (rock.overlapping(water)) {
@@ -334,8 +339,11 @@ function draw() {
 
     // Spawn door
     door = new Sprite(700, 470, 30, 60, STATIC);
-    door.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
-    door.color = 'brown';
+    door.image = '/assets/images/sprites/portal.png';
+    //door.color = 'brown';
+    door.scale.y = 1.5;
+    door.scale.x = 1.5;
+    door.rotation = -25;
     door.layer = -1;
 
 
