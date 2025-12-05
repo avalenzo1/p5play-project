@@ -87,14 +87,14 @@ function setup() {
   floor5.color = 'yellow';
 
   floor1 = new Sprite(350, 425, 300, 5, STATIC); // Shrinking
-  floor1.color = '#9C27B0';
+  floor1.color = 'red';
 
   floor2 = new Sprite(400, 250, 200, 5, STATIC); // Top
   floor3 = new Sprite(700, 350, 300, 5, STATIC); // Middle
   floor4 = new Sprite(700, 500, 300, 5, STATIC); // Bottom
-  floor2.color = 'white';
-  floor3.color = 'white';
-  floor4.color = 'white';
+  floor2.color = 'green';
+  floor3.color = 'green';
+  floor4.color = 'green';
 
   // Walls
   wall1 = new Sprite(0, 300, 5, 600, STATIC);
@@ -104,7 +104,7 @@ function setup() {
 
   // Moving platform
   platform = new Sprite(30, 250, 60, 5, KIN);
-  platform.color = '#9C27B0';
+  platform.color = 'red';
 
   // Collectible orb (starts on the moving platform)
   gift = addGift(platform.x, platform.y - 15);
@@ -183,18 +183,22 @@ function draw() {
       rudolph.vel.x = -3;
       rudolph.scale.x = -2;
   }
-  if (kb.pressing('d')) {
+  else if (kb.pressing('d')) {
       rudolph.vel.x = 3;
       rudolph.scale.x = 2;
+  } else{
+    rudolph.vel.x = 0;
   }
 
   if (kb.pressing('ArrowLeft')) {
       elf.vel.x = -3;
       elf.scale.x = -1;
   }
-  if (kb.pressing('ArrowRight')) {
+  else if (kb.pressing('ArrowRight')) {
       elf.vel.x = 3;
       elf.scale.x = 1;
+  } else{
+      elf.vel.x = 0;
   }
 
   if (onTopOf(rudolph, floor0) || onTopOf(rudolph, floor1) ||
@@ -231,7 +235,7 @@ function draw() {
   } else if (kb.pressing('a') || kb.pressing('d')) {
       rudolph.changeAni('run');
 
-      if (!snowSnd.isPlaying()) {
+      if (!snowSnd.isPlaying() && !rudolph.overlapping(water)) {
           snowSnd.jump(0.1);
 
           snowSnd.play();
@@ -268,10 +272,8 @@ function draw() {
   if (rudolph.overlapping(water)) {
     rudolph.vel.y *= 0;
     rudolph.vel.x *= 0;
-    rudolph.color = 'black';
     rudolph.changeAni('frozen');
-  } else rudolph.color = 'red';
-
+  } 
   // Rock sinking behavior
   if (rock.overlapping(water)) {
     rock.vel.x *= 0.5;
@@ -411,12 +413,13 @@ function drawUI() {
     noStroke();
     fill(0);
     textSize(18);
+    textAlign(LEFT, BASELINE);
     text(`Score: ${score}`, 20, 60);
 
     // GUI: Timer
     text(`Time Left: ${timeLeft}s`, 20, 30);
 
-    if(timeLeft > 0){
+    if(timeLeft > 0 && !levelPassed){
       if(time < 0){
         
         timeLeft--;  
