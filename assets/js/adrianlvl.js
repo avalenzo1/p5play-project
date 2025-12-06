@@ -530,7 +530,7 @@ function makeGUI(){
 }
 
 function draw() {
-  image(bgImg,0,0);
+  image(bgAdrianImg,0,0);
   
   rudolph.rotation = 0;
   elf.rotation = 0;

@@ -142,7 +142,7 @@ function setup() {
 }
 
 function draw() {
-  image(bgImg,0,0);
+  image(bgHungImg,0,0);
 
   if (levelPassed) {
       return;

@@ -163,7 +163,7 @@ function playerJumps() {
 }
 
 function draw() {
-    image(bgImg,0,0);
+    image(bgAntImg,0,0);
 
     if (levelPassed) {
         return;
