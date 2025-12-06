@@ -170,7 +170,7 @@ function restartGame() {
 }
 
 function makeGUI(){
-    fill(0);
+    fill('white');
     textSize(18);
     textAlign(LEFT, BASELINE);
     // GUI: Timer
@@ -355,7 +355,7 @@ function mouseClicked() {
 }
 
 function drawUI() {
-    fill(0);
+    fill('white');
     textSize(18);
 
     if (levelPassed) {

@@ -295,7 +295,7 @@ function mouseClicked() {
 
 function drawUI() {
     noStroke();
-    fill(0);
+    fill('white');
     textSize(18);
     text(`Score: ${score}`, 20, 60);
 
