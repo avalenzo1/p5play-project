@@ -26,10 +26,13 @@ let timeLeft = timeLimit;
 let time = 60;
 
 let frozen = false;
+let music;
 
 function preload() {
   loadSounds();
   loadIcons();
+  music = loadSound('/assets/sounds/christmas_happy.mp3');
+  music.setVolume(0.3);
 
   // Loading 
   rudolph = new Sprite();
@@ -70,6 +73,7 @@ function preload() {
 function setup() {
   createCanvas(800, 600);
   displayMode('normal', 'pixelated');
+  music.loop();
 
   world.gravity.y = 10;
 

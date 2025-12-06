@@ -26,13 +26,16 @@ let jumps = 1;
 let jumps2 = 1;
 
 let rudolph, elf;
-let levelPassed = false
+let levelPassed = false;
+let music;
 
 function preload() {
     createCanvas(800, 600);
 
     loadSounds();
     loadIcons();
+    music = loadSound('/assets/sounds/christmas_grace.mp3');
+    music.setVolume(0.7);
     // addBorders();
 
   makePlayers();
@@ -380,8 +383,9 @@ function resetJumps(){
 }
 function setup() {
   displayMode('normal', 'pixelated');
+  music.loop();
   // createCanvas(800, 600);
-   initializeSprites();
+  initializeSprites();
   world.gravity.y = 10;  
 
   rudolph.scale.x = 1.65;

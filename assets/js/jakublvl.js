@@ -13,13 +13,15 @@ let gameActive = true;
 let levelPassed = false;
 let levelPassedScreenInitialized = false
 let continueTimer = true;
-
+let music;
 
 function preload() {
     createCanvas(800, 600);
 
     loadSounds();
     loadIcons();
+    music = loadSound('/assets/sounds/christmas_bright.mp3');
+    music.setVolume(0.35);
 
   rudolph = new Sprite();
   rudolph.spriteSheet = '/assets/images/sprites/rudolphSpriteSheet.png';
@@ -64,6 +66,7 @@ function preload() {
 
 function setup() {
   createCanvas(800, 600);
+  music.loop();
 
   displayMode('normal', 'pixelated');
 
