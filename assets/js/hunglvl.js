@@ -114,7 +114,7 @@ function setup() {
 
   // Water pool
   water = new Sprite(250, 580, 250, 50, STATIC);
-  water.color = 'lightblue';
+  water.color = '#0ae7f385';
   water.layer = -1;
 
   // Pushable rock
@@ -128,10 +128,10 @@ function setup() {
 
   // Cannons
   cannonLeft = new Sprite(15, 125, 30, 30, STATIC);
-  cannonLeft.color = 'black';
+  cannonLeft.color = 'gray';
 
   cannonRight = new Sprite(785, 200, 30, 30, STATIC);
-  cannonRight.color = 'black';
+  cannonRight.color = 'gray';
 
   rudolph.scale.x = 2;
   rudolph.scale.y = 2;

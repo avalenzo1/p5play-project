@@ -113,7 +113,7 @@ function setup() {
   platform5Inner = new Sprite(platformX, 400, platformW, 10, STATIC);
   platform5Inner.color = 'gold';
   
-  platform6 = new Sprite(300, 200, 100, 20, STATIC);
+  platform6 = new Sprite(350, 200, 100, 20, STATIC);
   platform6.color = 'red';
   
   let wallCenterX = 440; //Make sure it's at the same x
@@ -124,7 +124,7 @@ function setup() {
   platform7movable = new Sprite(wallCenterX, 540, 20, 100, STATIC);
   platform7movable.color = color(50);
   
-  platform8 = new Sprite(660, 200, 50, 20, STATIC);
+  platform8 = new Sprite(670, 200, 50, 20, STATIC);
   platform8.color = 'red';
   
   platform9 = new Sprite(650, 500, 220, 20, STATIC);
@@ -140,12 +140,12 @@ function setup() {
   wallJump2.textSize = 25;
   wallJump2.text = "^\n^\n^\n^\n^";
   
-  rudolph.scale.x = 1.7;
-  rudolph.scale.y = 1.7;
+  rudolph.scale.x = 2;
+  rudolph.scale.y = 2;
   redJumps = 1;
   
-  elf.scale.x = 1.2;
-  elf.scale.y = 1.2;
+  elf.scale.x = 1;
+  elf.scale.y = 1;
   blueJumps = 1;
 
   //movePlatform.scale.x = 1.3;
@@ -197,11 +197,11 @@ function draw() {
 
   if (kb.pressing('arrow_left')) {
   elf.vel.x = -5;
-  elf.scale.x = -1.3;
+  elf.scale.x = -1;
   }
   else if (kb.pressing('arrow_right')) {
   elf.vel.x = 5;
-  elf.scale.x = 1.3;
+  elf.scale.x = 1;
   }
   else { 
     elf.vel.x = 0;
@@ -224,11 +224,11 @@ function draw() {
 
   if (kb.pressing('a')) {
   rudolph.vel.x = -5;
-  rudolph.scale.x = -1.3;
+  rudolph.scale.x = -2;
   }
   else if (kb.pressing('d')) {
   rudolph.vel.x = 5;
-  rudolph.scale.x = 1.3;
+  rudolph.scale.x = 2;
   }
   else {
   rudolph.vel.x = 0;
