@@ -459,18 +459,14 @@ function passedLevel(){
   let timeToScore = timeLeft * 100;
   score += timeToScore;
   levelPassed = true;
-  // clear();
   noLoop();
   levelPassSnd.play();
     textSize(64);
     textAlign(CENTER);
     background("#0004")
-    // clear();
-    // background("#fff");
-    // fill(255);
+    fill(255);
     destructor();
     // circle(400,300,1000);
-    fill('black');
     text('Level Passed', width / 2, height / 2 - 50);
       image(voidStarImg, width / 2 - 128, height / 2 - 32, 64, 64);
       image(voidStarImg, width / 2 - 32, height / 2 - 32, 64, 64);
@@ -504,9 +500,11 @@ function passedLevel(){
 function makeGUI(){
   // GUI: Score
     noStroke();
-    fill(0);
+    fill('white');
     textSize(18);
+    // push();
     textAlign(LEFT, BASELINE);
+    // stroke(white);
     text(`Score: ${score}`, 20, 60);
 
     // GUI: Timer
@@ -514,6 +512,8 @@ function makeGUI(){
 
     text(`2 Player game`, 500, 550);
     text(`Use WASD and Arrow Keys`, 450, 580);
+
+    // pop();
 
     if(timeLeft > 0){
       if(time < 0){
@@ -538,8 +538,8 @@ function draw() {
    playerJumps();
     
     //checks for win
-    if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
-      // if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
+    // if(rudolph.colliding(winFloor1) && elf.colliding(winFloor1)){
+      if(rudolph.colliding(gameFloor1) && elf.colliding(gameFloor1)){//testing win screen
        passedLevel();
     }
 
