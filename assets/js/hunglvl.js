@@ -417,7 +417,6 @@ function drawFrame() {
     allSprites.draw();
         
     drawUI();
-
 }
 
 function mouseClicked() {
@@ -434,6 +433,7 @@ function drawUI() {
     noStroke();
     fill(0);
     textSize(18);
+    fill('white');
     textAlign(LEFT, BASELINE);
     text(`Score: ${score}`, 20, 60);
 
