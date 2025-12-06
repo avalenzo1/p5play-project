@@ -26,8 +26,8 @@ const dialogue = [
     "but Santa is dumb -- he forgot to put gasoline on the sleigh]...",
     "...",
     "(Phone ringing)",
-    "Hey... it's santa...",
-    "Can you go find the presents with rudolph?",
+    "Hey... it's Nicholas...",
+    "Can you and Rudolph go gather the scattered presents?",
 ];
 
 let currentLine = 0;
@@ -117,7 +117,6 @@ function drawDialogue() {
                 if (!fahSnd.isPlaying()) {
                     fahSnd.setVolume(0.03)
                     fahSnd.play();
-
                 }
 
                 santaSleigh.image = "/assets/images/sprites/santaSadSleigh.png"

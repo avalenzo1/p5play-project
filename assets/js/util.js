@@ -10,8 +10,8 @@ let starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, 
 function addFloor(x, y, w, h) {
     let newFloor = new floors.Sprite(x, y, w, h,STATIC);
 
-    newFloor.fill="grey";
-    newFloor.stroke="grey";
+    newFloor.fill="green";
+    newFloor.stroke="green";
     newFloor.friction = 4;
 
     return newFloor;
@@ -20,8 +20,8 @@ function addFloor(x, y, w, h) {
 function addWall(x, y, w, h) {
     let newWall = new walls.Sprite(x, y, w, h, STATIC);
 
-    newWall.fill="grey";
-    newWall.stroke="grey";
+    newWall.fill="green";
+    newWall.stroke="green";
     newWall.friction = 0;
 
     return addWall;
