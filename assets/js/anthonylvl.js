@@ -319,7 +319,7 @@ function drawUI() {
             levelPassedScreenInitialized = true;
         }
 
-        background("#fff");
+        background("#0004");
 
         textSize(32);
         textAlign(CENTER);
