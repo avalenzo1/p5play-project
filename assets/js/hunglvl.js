@@ -25,6 +25,8 @@ let health = 100;
 let timeLeft = timeLimit;
 let time = 60;
 
+let frozen = false;
+
 function preload() {
   loadSounds();
   loadIcons();
@@ -273,12 +275,16 @@ function draw() {
     rudolph.vel.y *= 0;
     rudolph.vel.x *= 0;
     rudolph.changeAni('frozen');
-    if (!freezeSnd.isPlaying()) {
+    if (!freezeSnd.isPlaying() && frozen == false) {
     freezeSnd.jump(0.1);
 
     freezeSnd.play();
     }
-  } 
+    frozen = true;
+  }
+  else{
+    frozen = false;
+  }
   // Rock sinking behavior
   if (rock.overlapping(water)) {
     rock.vel.x *= 0.5;
@@ -354,6 +360,11 @@ function draw() {
     ((elf.overlapping(door) && rudolph.overlapping(door)) || (rudolph.overlapping(door) && elf.overlapping(door)))) {
     levelPassed = true;
   }
+
+  textSize(16);
+  
+  textAlign(RIGHT, BASELINE);
+  text(`Rudolph can tank bullets,\n Elf is immune to freezing`, 770, 30);
 
   // Restart
   /*if (kb.presses('r')) {
