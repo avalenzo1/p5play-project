@@ -4,7 +4,7 @@ let gifts;
 let score = 0;
 let timer = 60;
 let kaFont;
-let jumpSnd, snowSnd, giftSnd, levelPassSnd, freezeSnd;
+let hohohoSnd, jumpSnd, snowSnd, giftSnd, levelPassSnd, freezeSnd;
 let bgImg, starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg, homeLevelImg, homeLevelHoverImg, treeStompImg;
 
 function addFloor(x, y, w, h) {
@@ -98,4 +98,5 @@ function loadSounds() {
     giftSnd = loadSound('/assets/sounds/gift.mp3');
     levelPassSnd = loadSound('/assets/sounds/levelPass.mp3');
     freezeSnd = loadSound('/assets/sounds/freezing.mp3');
+    hohohoSnd = loadSound('/assets/sounds/hohoho.mp3');
 }
