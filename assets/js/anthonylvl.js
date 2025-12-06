@@ -160,7 +160,7 @@ function playerJumps() {
 }
 
 function draw() {
-    background(200);
+    image(bgImg,0,0);
 
     if (levelPassed) {
         return;

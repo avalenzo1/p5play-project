@@ -191,7 +191,7 @@ function makeGUI(){
 }
 
 function draw() {
-  background(220);
+  image(bgImg,0,0);
   
   checkForGift();
 

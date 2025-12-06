@@ -526,7 +526,7 @@ function makeGUI(){
 }
 
 function draw() {
-  background(220);
+  image(bgImg,0,0);
   
   rudolph.rotation = 0;
   elf.rotation = 0;
