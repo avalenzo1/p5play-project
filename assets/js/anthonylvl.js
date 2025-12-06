@@ -103,6 +103,7 @@ function setup() {
 
     pad3 = addFloor(200, 200, 50, 5);
     pad3.fill = "red";
+    pad3.stroke = "red";
 
     addGift(100, 100);
     addGift(100, 200);

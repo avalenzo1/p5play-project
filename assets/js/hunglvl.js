@@ -348,6 +348,7 @@ function draw() {
 
 
   }
+  
 
   // Door activation: BOTH players must touch it
   if (!levelPassed && door &&
@@ -410,7 +411,7 @@ function drawFrame() {
 
 function mouseClicked() {
     if (dist(mouseX, mouseY, width / 2 - 84 + 32, height / 2 + 100 + 32) <= 32 && levelPassed) {
-        window.location.href="/";
+        window.location.href="theendlvl.html";
     }
 
     if (dist(mouseX, mouseY, width / 2 + 16 + 32, height / 2 + 100 + 32) <= 32 && (levelPassed || timeLeft <= 0)) {
