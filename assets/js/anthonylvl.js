@@ -9,12 +9,14 @@ let levelPassedScreenInitialized = false;
 let maxJumps = 1;
 let jumps = 1;
 let jumps2 = 1;
+let music;
 
 function preload() {
     createCanvas(800, 600);
 
     loadSounds();
     loadIcons();
+    music = loadSound('/assets/sounds/christmas_jazz.mp3');
 
     // Loading 
     rudolph = new Sprite();
@@ -55,6 +57,7 @@ function preload() {
 
 function setup() {
     displayMode('normal', 'pixelated');
+    music.loop();
 
     world.gravity.y = 10;
 
@@ -160,7 +163,7 @@ function playerJumps() {
 }
 
 function draw() {
-    image(bgImg,0,0);
+    image(bgAntImg,0,0);
 
     if (levelPassed) {
         return;

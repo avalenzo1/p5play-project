@@ -1,6 +1,8 @@
 function setup() {
     createCanvas(800, 600);
 
+    
+
     displayMode('normal', 'pixelated');
 
     santaSleigh = new Sprite(width / 2, height / 2, 144, 64);
@@ -45,6 +47,8 @@ function preload() {
     fahSnd = loadSound('/assets/sounds/fahhhhhhhhhhhhhh.mp3');
     oohSnd = loadSound('/assets/sounds/ooh.mp3');
     ringSnd = loadSound('/assets/sounds/ring.mp3');
+
+    loadSounds();
 }
 
 let cloudX = 0;
@@ -107,6 +111,12 @@ function drawDialogue() {
     if (kb.pressed('Enter')) {
         if (currentLine < dialogue.length - 1) {
             currentLine++;
+
+            if (currentLine == 1) {
+                if (!hohohoSnd.isPlaying()) {
+                hohohoSnd.play();
+                }
+            }
 
             if (currentLine == 2) {
                 if (!bellSnd.isPlaying()) {

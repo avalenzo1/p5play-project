@@ -4,8 +4,8 @@ let gifts;
 let score = 0;
 let timer = 60;
 let kaFont;
-let jumpSnd, snowSnd, giftSnd, levelPassSnd, freezeSnd;
-let bgImg, starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg, homeLevelImg, homeLevelHoverImg, treeStompImg;
+let hohohoSnd, jumpSnd, snowSnd, giftSnd, levelPassSnd, freezeSnd;
+let bgAdrianImg, bgAntImg, bgJakubImg, bgHungImg, starImg, voidStarImg, nextLevelImg, nextLevelHoverImg, nextLevelClickedImg, replayLevelImg, replayLevelHoverImg, replayLevelClickedImg, homeLevelImg, homeLevelHoverImg, treeStompImg;
 
 function addFloor(x, y, w, h) {
     let newFloor = new floors.Sprite(x, y, w, h,STATIC);
@@ -89,7 +89,10 @@ function loadIcons() {
     homeLevelHoverImg =  loadImage('/assets/images/sprites/homeLevelHover.png');
     treeStompImg = loadImage('/assets/images/sprites/treeStomp.png');
 
-    bgImg = loadImage('/assets/images/sprites/bg.png');
+    bgAdrianImg = loadImage('/assets/images/sprites/bgAdrian.png');
+    bgAntImg = loadImage('/assets/images/sprites/bgAnt.png');
+    bgJakubImg = loadImage('/assets/images/sprites/bgJakub.png');
+    bgHungImg = loadImage('/assets/images/sprites/bgHung.png');
 }
 
 function loadSounds() {
@@ -98,4 +101,5 @@ function loadSounds() {
     giftSnd = loadSound('/assets/sounds/gift.mp3');
     levelPassSnd = loadSound('/assets/sounds/levelPass.mp3');
     freezeSnd = loadSound('/assets/sounds/freezing.mp3');
+    hohohoSnd = loadSound('/assets/sounds/hohoho.mp3');
 }
