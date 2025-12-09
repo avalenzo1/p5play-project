@@ -19,7 +19,7 @@ let timeLimit = 120; // seconds
 let health = 100;
 // let score = 0;
 let timeLeft = timeLimit;
-let time = 40;
+let time = 45;
 
 let maxJumps = 1;
 let jumps = 1;
@@ -519,7 +519,7 @@ function makeGUI(){
       if(time < 0){
         
         timeLeft--;  
-        time = 30;//get rid of to test gameOver
+        time = 45;//get rid of to test gameOver
       }
       time--;
     }
