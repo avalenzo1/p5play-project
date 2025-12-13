@@ -19,7 +19,7 @@ let timeLimit = 120; // seconds
 let health = 100;
 // let score = 0;
 let timeLeft = timeLimit;
-let time = 45;
+let time = 50;
 
 let maxJumps = 1;
 let jumps = 1;
@@ -109,92 +109,92 @@ function level1Layout(){
   gameFloor1 = new Sprite();
   gameFloor1.color = 'darkgreen';
   gameFloor1.static = true;
-  gameFloor1.w = 340;
+  gameFloor1.w = 330;
   gameFloor1.h = 7.5;
   gameFloor1.y = 500 - 3.75;
-  gameFloor1.x = 170;
+  gameFloor1.x = 165;
   gameFloor1.friction = 0;
 
-    gameFloor1bot, gameFloor2bot, gameFloor3bot, gameFloor4bot, gameFloor5bot;
+  // gameFloor1bot, gameFloor2bot, gameFloor3bot, gameFloor4bot, gameFloor5bot;
   gameFloor1bot = new Sprite();
   gameFloor1bot.color = 'darkgreen';
   gameFloor1bot.static = true;
-  gameFloor1bot.w = 340;
+  gameFloor1bot.w = 330;
   gameFloor1bot.h = 3.75;
   gameFloor1bot.y = 500;
-  gameFloor1bot.x = 170;
+  gameFloor1bot.x = 165;
   gameFloor1bot.friction = 0;
   
   gameFloor2 = new Sprite();
   gameFloor2.color = 'darkgreen';
   gameFloor2.static = true;
-  gameFloor2.w = 340;
+  gameFloor2.w = 330;
   gameFloor2.h = 7.5;
   gameFloor2.y = 400 - 3.75;
-  gameFloor2.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor2.x = 235.5;//add.5 for the wall is 7.5
   gameFloor2.friction = 0;
 
   gameFloor2bot = new Sprite();
   gameFloor2bot.color = 'darkgreen';
   gameFloor2bot.static = true;
-  gameFloor2bot.w = 340;
+  gameFloor2bot.w = 330;
   gameFloor2bot.h = 3.75;
   gameFloor2bot.y = 400;
-  gameFloor2bot.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor2bot.x = 235.5;//add.5 for the wall is 7.5
   gameFloor2bot.friction = 0;
   
   gameFloor3 = new Sprite();
   gameFloor3.color = 'darkgreen';
   gameFloor3.static = true;
-  gameFloor3.w = 340;
+  gameFloor3.w = 330;
   gameFloor3.h = 7.5;
   gameFloor3.y = 300 - 3.75;
-  gameFloor3.x = 170;
+  gameFloor3.x = 165;
   gameFloor3.friction = 0;
 
   gameFloor3bot = new Sprite();
   gameFloor3bot.color = 'darkgreen';
   gameFloor3bot.static = true;
-  gameFloor3bot.w = 340;
+  gameFloor3bot.w = 330;
   gameFloor3bot.h = 3.75;
   gameFloor3bot.y = 300;
-  gameFloor3bot.x = 170;
+  gameFloor3bot.x = 165;
   gameFloor3bot.friction = 0;
   
   gameFloor4 = new Sprite();
   gameFloor4.color = 'darkgreen';
   gameFloor4.static = true;
-  gameFloor4.w = 340;
+  gameFloor4.w = 330;
   gameFloor4.h = 7.5;
   gameFloor4.y = 200 - 3.75;
-  gameFloor4.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor4.x = 235.5;//add.5 for the wall is 7.5
   gameFloor4.friction = 0;
 
   gameFloor4bot = new Sprite();
   gameFloor4bot.color = 'darkgreen';
   gameFloor4bot.static = true;
-  gameFloor4bot.w = 340;
+  gameFloor4bot.w = 330;
   gameFloor4bot.h = 3.75;
   gameFloor4bot.y = 200;
-  gameFloor4bot.x = 230.5;//add.5 for the wall is 7.5
+  gameFloor4bot.x = 235.5;//add.5 for the wall is 7.5
   gameFloor4bot.friction = 0;
   
   gameFloor5 = new Sprite();
   gameFloor5.color = 'darkgreen';
   gameFloor5.static = true;
-  gameFloor5.w = 340;
+  gameFloor5.w = 330;
   gameFloor5.h = 7.5;
   gameFloor5.y = 100 - 3.75;
-  gameFloor5.x = 170;
+  gameFloor5.x = 165;
   gameFloor5.friction = 0;
 
   gameFloor5bot = new Sprite();
   gameFloor5bot.color = 'darkgreen';
   gameFloor5bot.static = true;
-  gameFloor5bot.w = 340;
+  gameFloor5bot.w = 330;
   gameFloor5bot.h = 3.75;
   gameFloor5bot.y = 100;
-  gameFloor5bot.x = 170;
+  gameFloor5bot.x = 165;
   gameFloor5bot.friction = 0;
   
   winFloor1 = new Sprite();
@@ -523,7 +523,7 @@ function makeGUI(){
       if(time < 0){
         
         timeLeft--;  
-        time = 45;//get rid of to test gameOver
+        time = 50;//get rid of to test gameOver
       }
       time--;
     }
@@ -549,7 +549,7 @@ function draw() {
 
     makeGUI();
     
-    platform.vel.y = cos(frameCount * 2.2) * 7;
+    platform.vel.y = cos(frameCount * 2.2) * 9.2;
     
     collect();//collects sprites and adds to score
 
