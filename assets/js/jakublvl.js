@@ -337,7 +337,7 @@ function draw() {
   textSize(16);
   
   textAlign(RIGHT, BASELINE);
-  text(`Hold A or D or the \naccording arrow \nkeys to climb the walls.`, 770, 30);
+  text(`Hold Down A or D or the \naccording arrow \nkeys to climb the walls.`, 770, 30);
 }
 
 function drawFrame() {
