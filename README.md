@@ -14,3 +14,6 @@ Jakub Szwedo - Sprite Designer & Level Maker
 - Add all sprites to project
 - Make a menu and level select screen
 - Add the game feel (SFX, Music, Tiny Details) (https://www.youtube.com/watch?v=AJdEqssNZ-U)
+
+## public site for game
+ https://p5play.netlify.app/
